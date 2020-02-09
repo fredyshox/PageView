@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,8 @@
 		E71148BF23EF7D17009ABC2D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E71148BE23EF7D17009ABC2D /* Preview Assets.xcassets */; };
 		E71148CF23EF7D38009ABC2D /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71148CE23EF7D38009ABC2D /* Views.swift */; };
 		E71148D023EF7E73009ABC2D /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71148CE23EF7D38009ABC2D /* Views.swift */; };
+		E711490123EF8AAE009ABC2D /* PageView in Frameworks */ = {isa = PBXBuildFile; productRef = E711490023EF8AAE009ABC2D /* PageView */; };
+		E711490323EF8AB5009ABC2D /* PageView in Frameworks */ = {isa = PBXBuildFile; productRef = E711490223EF8AB5009ABC2D /* PageView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E711490123EF8AAE009ABC2D /* PageView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E711490323EF8AB5009ABC2D /* PageView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +214,7 @@
 			);
 			name = PageViewDemo;
 			packageProductDependencies = (
+				E711490023EF8AAE009ABC2D /* PageView */,
 			);
 			productName = PageViewDemo;
 			productReference = E711488D23EF7D14009ABC2D /* PageViewDemo.app */;
@@ -246,6 +251,7 @@
 			);
 			name = "PageViewDemo WatchKit Extension";
 			packageProductDependencies = (
+				E711490223EF8AB5009ABC2D /* PageView */,
 			);
 			productName = "PageViewDemo WatchKit Extension";
 			productReference = E71148B023EF7D16009ABC2D /* PageViewDemo WatchKit Extension.appex */;
@@ -282,6 +288,7 @@
 			);
 			mainGroup = E711488423EF7D14009ABC2D;
 			packageReferences = (
+				E71148FF23EF8AAE009ABC2D /* XCRemoteSwiftPackageReference "PageView" */,
 			);
 			productRefGroup = E711488E23EF7D14009ABC2D /* Products */;
 			projectDirPath = "";
@@ -663,6 +670,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E71148FF23EF8AAE009ABC2D /* XCRemoteSwiftPackageReference "PageView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:fredyshox/PageView.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E711490023EF8AAE009ABC2D /* PageView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E71148FF23EF8AAE009ABC2D /* XCRemoteSwiftPackageReference "PageView" */;
+			productName = PageView;
+		};
+		E711490223EF8AB5009ABC2D /* PageView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E71148FF23EF8AAE009ABC2D /* XCRemoteSwiftPackageReference "PageView" */;
+			productName = PageView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E711488523EF7D14009ABC2D /* Project object */;
 }

@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "PageView",
+        "repositoryURL": "git@github.com:fredyshox/PageView.git",
+        "state": {
+          "branch": "master",
+          "revision": "aa222bca8bd1555ee06e63039c090ce58276f9c8",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
