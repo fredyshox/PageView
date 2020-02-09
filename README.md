@@ -35,6 +35,10 @@ Demo app for both iOS and watchOS is provided in `Examples/` directory.
 
 ## Usage
 
+```swift
+import PageView
+```
+
 Add paged view with 3 pages using following code:
 ```swift
 PageView(pageCount: 3) { pageIndex in
