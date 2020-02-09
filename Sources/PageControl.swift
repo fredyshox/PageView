@@ -13,7 +13,7 @@ public struct PageControl: View {
     @Binding public var selectedPage: Int
     
     public var body: some View {
-        HStack {
+        HStack(spacing: theme.spacing) {
             ForEach(0..<pageCount) { (i) in
                 Circle()
                     .frame(width: self.theme.dotSize, height: self.theme.dotSize)

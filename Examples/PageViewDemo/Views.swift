@@ -19,7 +19,7 @@ struct CustomView: View {
         VStack {
             Image(systemName: "globe").resizable()
                 .scaledToFit()
-                .frame(width: 100, height: 100)
+                .frame(width: 50, height: 50)
                 .foregroundColor(.orange)
             Text("Hello world")
                 .font(.system(size: 24))
