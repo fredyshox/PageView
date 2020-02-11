@@ -7,11 +7,11 @@
 //
 
 import SwiftUI
-import PageView
+//import PageView
 
 struct ContentView: View {
     var body: some View {
-        PageView(pageCount: 3) { (i) -> AnyView in
+        PageView(axis: .vertical, pageCount: 3) { (i) -> AnyView in
             if i == 0 {
                 return CustomView().eraseToAnyView()
             } else if i == 1 {

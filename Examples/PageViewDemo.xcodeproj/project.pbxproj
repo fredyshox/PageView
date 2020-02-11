@@ -3,12 +3,20 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E211DFB923F043B3000EB7DA /* PageView in Frameworks */ = {isa = PBXBuildFile; productRef = E211DFB823F043B3000EB7DA /* PageView */; };
-		E211DFBB23F043BA000EB7DA /* PageView in Frameworks */ = {isa = PBXBuildFile; productRef = E211DFBA23F043BA000EB7DA /* PageView */; };
+		E211E06623F219F9000EB7DA /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06323F219F9000EB7DA /* PageControl.swift */; };
+		E211E06723F219F9000EB7DA /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06423F219F9000EB7DA /* PageView.swift */; };
+		E211E06823F219F9000EB7DA /* PageControlTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06523F219F9000EB7DA /* PageControlTheme.swift */; };
+		E211E06923F21A23000EB7DA /* PageControlTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06523F219F9000EB7DA /* PageControlTheme.swift */; };
+		E211E06A23F21A25000EB7DA /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06323F219F9000EB7DA /* PageControl.swift */; };
+		E211E06B23F21A27000EB7DA /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06423F219F9000EB7DA /* PageView.swift */; };
+		E211E07223F30C49000EB7DA /* PageScrollState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E07023F30C49000EB7DA /* PageScrollState.swift */; };
+		E211E07323F30C49000EB7DA /* PageScrollState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E07023F30C49000EB7DA /* PageScrollState.swift */; };
+		E211E07423F30C49000EB7DA /* PageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E07123F30C49000EB7DA /* PageContent.swift */; };
+		E211E07523F30C49000EB7DA /* PageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E07123F30C49000EB7DA /* PageContent.swift */; };
 		E711489123EF7D14009ABC2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E711489023EF7D14009ABC2D /* AppDelegate.swift */; };
 		E711489323EF7D14009ABC2D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E711489223EF7D14009ABC2D /* SceneDelegate.swift */; };
 		E711489523EF7D14009ABC2D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E711489423EF7D14009ABC2D /* ContentView.swift */; };
@@ -71,6 +79,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E211E05C23F21695000EB7DA /* PageView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PageView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E211E05F23F2169A000EB7DA /* PageView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PageView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E211E06323F219F9000EB7DA /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageControl.swift; path = ../Sources/PageControl.swift; sourceTree = "<group>"; };
+		E211E06423F219F9000EB7DA /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageView.swift; path = ../Sources/PageView.swift; sourceTree = "<group>"; };
+		E211E06523F219F9000EB7DA /* PageControlTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageControlTheme.swift; path = ../Sources/PageControlTheme.swift; sourceTree = "<group>"; };
+		E211E07023F30C49000EB7DA /* PageScrollState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageScrollState.swift; path = ../Sources/PageScrollState.swift; sourceTree = "<group>"; };
+		E211E07123F30C49000EB7DA /* PageContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PageContent.swift; path = ../Sources/PageContent.swift; sourceTree = "<group>"; };
 		E711488D23EF7D14009ABC2D /* PageViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PageViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E711489023EF7D14009ABC2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E711489223EF7D14009ABC2D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,7 +113,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E211DFB923F043B3000EB7DA /* PageView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,16 +120,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E211DFBB23F043BA000EB7DA /* PageView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E211E06223F219EB000EB7DA /* PageView */ = {
+			isa = PBXGroup;
+			children = (
+				E211E06323F219F9000EB7DA /* PageControl.swift */,
+				E211E06523F219F9000EB7DA /* PageControlTheme.swift */,
+				E211E06423F219F9000EB7DA /* PageView.swift */,
+				E211E07123F30C49000EB7DA /* PageContent.swift */,
+				E211E07023F30C49000EB7DA /* PageScrollState.swift */,
+			);
+			name = PageView;
+			sourceTree = "<group>";
+		};
 		E711488423EF7D14009ABC2D = {
 			isa = PBXGroup;
 			children = (
+				E211E06223F219EB000EB7DA /* PageView */,
 				E711488F23EF7D14009ABC2D /* PageViewDemo */,
 				E71148A523EF7D15009ABC2D /* PageViewDemo WatchKit App */,
 				E71148B423EF7D16009ABC2D /* PageViewDemo WatchKit Extension */,
@@ -191,6 +217,8 @@
 		E71148D423EF8004009ABC2D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E211E05F23F2169A000EB7DA /* PageView.framework */,
+				E211E05C23F21695000EB7DA /* PageView.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -214,7 +242,6 @@
 			);
 			name = PageViewDemo;
 			packageProductDependencies = (
-				E211DFB823F043B3000EB7DA /* PageView */,
 			);
 			productName = PageViewDemo;
 			productReference = E711488D23EF7D14009ABC2D /* PageViewDemo.app */;
@@ -251,7 +278,6 @@
 			);
 			name = "PageViewDemo WatchKit Extension";
 			packageProductDependencies = (
-				E211DFBA23F043BA000EB7DA /* PageView */,
 			);
 			productName = "PageViewDemo WatchKit Extension";
 			productReference = E71148B023EF7D16009ABC2D /* PageViewDemo WatchKit Extension.appex */;
@@ -288,7 +314,6 @@
 			);
 			mainGroup = E711488423EF7D14009ABC2D;
 			packageReferences = (
-				E211DFB723F043B3000EB7DA /* XCRemoteSwiftPackageReference "PageView" */,
 			);
 			productRefGroup = E711488E23EF7D14009ABC2D /* Products */;
 			projectDirPath = "";
@@ -337,9 +362,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E211E06623F219F9000EB7DA /* PageControl.swift in Sources */,
+				E211E06723F219F9000EB7DA /* PageView.swift in Sources */,
 				E71148CF23EF7D38009ABC2D /* Views.swift in Sources */,
 				E711489123EF7D14009ABC2D /* AppDelegate.swift in Sources */,
+				E211E06823F219F9000EB7DA /* PageControlTheme.swift in Sources */,
+				E211E07223F30C49000EB7DA /* PageScrollState.swift in Sources */,
 				E711489323EF7D14009ABC2D /* SceneDelegate.swift in Sources */,
+				E211E07423F30C49000EB7DA /* PageContent.swift in Sources */,
 				E711489523EF7D14009ABC2D /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,8 +380,13 @@
 			files = (
 				E71148D023EF7E73009ABC2D /* Views.swift in Sources */,
 				E71148B823EF7D16009ABC2D /* HostingController.swift in Sources */,
+				E211E06A23F21A25000EB7DA /* PageControl.swift in Sources */,
 				E71148B623EF7D16009ABC2D /* ContentView.swift in Sources */,
+				E211E06923F21A23000EB7DA /* PageControlTheme.swift in Sources */,
+				E211E07323F30C49000EB7DA /* PageScrollState.swift in Sources */,
 				E71148BA23EF7D16009ABC2D /* ExtensionDelegate.swift in Sources */,
+				E211E07523F30C49000EB7DA /* PageContent.swift in Sources */,
+				E211E06B23F21A27000EB7DA /* PageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,30 +705,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		E211DFB723F043B3000EB7DA /* XCRemoteSwiftPackageReference "PageView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:fredyshox/PageView.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		E211DFB823F043B3000EB7DA /* PageView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E211DFB723F043B3000EB7DA /* XCRemoteSwiftPackageReference "PageView" */;
-			productName = PageView;
-		};
-		E211DFBA23F043BA000EB7DA /* PageView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E211DFB723F043B3000EB7DA /* XCRemoteSwiftPackageReference "PageView" */;
-			productName = PageView;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E711488523EF7D14009ABC2D /* Project object */;
 }

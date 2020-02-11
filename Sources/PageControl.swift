@@ -8,9 +8,9 @@
 import SwiftUI
 
 public struct PageControl: View {
-    public var pageCount: Int
-    public var theme: PageControlTheme
-    @Binding public var selectedPage: Int
+    public let pageCount: Int
+    public let theme: PageControlTheme
+    public let selectedPage: Int
     
     public var body: some View {
         HStack(spacing: theme.spacing) {
@@ -41,7 +41,7 @@ public struct PageControl: View {
 #if DEBUG
 struct PageControl_Previews: PreviewProvider {
     static var previews: some View {
-        PageControl(pageCount: 3, theme: .default, selectedPage: .constant(0))
+        PageControl(pageCount: 3, theme: .default, selectedPage: 0)
     }
 }
 #endif

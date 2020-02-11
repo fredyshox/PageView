@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E211E06D23F30AD5000EB7DA /* PageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06C23F30AD5000EB7DA /* PageContent.swift */; };
+		E211E06F23F30AFD000EB7DA /* PageScrollState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06E23F30AFD000EB7DA /* PageScrollState.swift */; };
 		OBJ_23 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* PageControl.swift */; };
 		OBJ_24 /* PageControlTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* PageControlTheme.swift */; };
 		OBJ_25 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* PageView.swift */; };
@@ -48,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E211E06C23F30AD5000EB7DA /* PageContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageContent.swift; sourceTree = "<group>"; };
+		E211E06E23F30AFD000EB7DA /* PageScrollState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageScrollState.swift; sourceTree = "<group>"; };
 		OBJ_10 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		OBJ_13 /* PageViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewTests.swift; sourceTree = "<group>"; };
 		OBJ_14 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 				OBJ_8 /* PageControl.swift */,
 				OBJ_9 /* PageControlTheme.swift */,
 				OBJ_10 /* PageView.swift */,
+				E211E06C23F30AD5000EB7DA /* PageContent.swift */,
+				E211E06E23F30AFD000EB7DA /* PageScrollState.swift */,
 			);
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -208,7 +214,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				E211E06D23F30AD5000EB7DA /* PageContent.swift in Sources */,
 				OBJ_23 /* PageControl.swift in Sources */,
+				E211E06F23F30AFD000EB7DA /* PageScrollState.swift in Sources */,
 				OBJ_24 /* PageControlTheme.swift in Sources */,
 				OBJ_25 /* PageView.swift in Sources */,
 			);
