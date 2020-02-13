@@ -18,28 +18,7 @@ class PageScrollState: ObservableObject {
     }
     
     func horizontalDragEnded(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
-        var newOffset = contentOffset
-        var newPage = selectedPage
-        if contentOffset > 0 {
-             newOffset = 0
-        } else if contentOffset < -(pageWidth * CGFloat(viewCount - 1)) {
-             newOffset = -(pageWidth * CGFloat(viewCount - 1))
-        } else {
-            let pageOffset = abs(contentOffset) - CGFloat(selectedPage) * pageWidth
-            if pageOffset > 0.5*pageWidth {
-                newPage += 1
-            } else if pageOffset < -0.5*pageWidth {
-                newPage -= 1
-            }
-             
-            newOffset = -CGFloat(newPage) * pageWidth
-        }
-        
-        withAnimation(.easeInOut(duration: 0.25)) {
-            self.contentOffset = newOffset
-            self.selectedPage = newPage
-            self.scrollOffset = self.contentOffset
-        }
+        dragEnded(value, viewCount: viewCount, dimension: pageWidth)
     }
     
     func verticalDragChanged(_ value: DragGesture.Value, pageHeight: CGFloat) {
@@ -48,21 +27,25 @@ class PageScrollState: ObservableObject {
     }
     
     func verticalDragEnded(_ value: DragGesture.Value, viewCount: Int, pageHeight: CGFloat) {
+        dragEnded(value, viewCount: viewCount, dimension: pageHeight)
+    }
+    
+    private func dragEnded(_ value: DragGesture.Value, viewCount: Int, dimension: CGFloat) {
         var newOffset = contentOffset
         var newPage = selectedPage
         if contentOffset > 0 {
              newOffset = 0
-        } else if contentOffset < -(pageHeight * CGFloat(viewCount - 1)) {
-             newOffset = -(pageHeight * CGFloat(viewCount - 1))
+        } else if contentOffset < -(dimension * CGFloat(viewCount - 1)) {
+             newOffset = -(dimension * CGFloat(viewCount - 1))
         } else {
-            let pageOffset = abs(contentOffset) - CGFloat(selectedPage) * pageHeight
-            if pageOffset > 0.5*pageHeight {
+            let pageOffset = abs(contentOffset) - CGFloat(selectedPage) * dimension
+            if pageOffset > 0.5*dimension {
                 newPage += 1
-            } else if pageOffset < -0.5*pageHeight {
+            } else if pageOffset < -0.5*dimension {
                 newPage -= 1
             }
              
-            newOffset = -CGFloat(newPage) * pageHeight
+            newOffset = -CGFloat(newPage) * dimension
         }
         
         withAnimation(.easeInOut(duration: 0.25)) {

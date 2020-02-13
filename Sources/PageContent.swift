@@ -33,7 +33,7 @@ struct PageContent: View {
                     }
                 }
                     .offset(x: self.horizontalOffset(using: geometry, alignment: .center))
-                PageControl(pageCount: self.views.count, theme: self.theme, selectedPage: self.state.selectedPage)
+                PageControl.DefaultHorizontal(pageCount: self.views.count, theme: self.theme, selectedPage: self.state.selectedPage)
                     .offset(y: -self.theme.offset)
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
@@ -55,8 +55,7 @@ struct PageContent: View {
                     }
                 }
                     .offset(y: self.verticalOffset(using: geometry, alignment: .center))
-                PageControl(pageCount: self.views.count, theme: self.theme, selectedPage: self.state.selectedPage)
-                    .rotationEffect(.degrees(90.0))
+                PageControl.DefaultVertical(pageCount: self.views.count, theme: self.theme, selectedPage: self.state.selectedPage)
                     .offset(x: self.theme.offset)
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
