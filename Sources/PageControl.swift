@@ -25,31 +25,31 @@ public enum PageControl {
     }
     
     public struct Horizontal<Body>: View where Body: View {
-        public typealias PageControlBody = (Int, Int, PageControlTheme) -> Body
+        public typealias PageControlBody = (Int, Binding<Int>, PageControlTheme) -> Body
         
         public let pageCount: Int
-        public let selectedPage: Int
+        @Binding public var selectedPage: Int
         public let theme: PageControlTheme
         public let bodyCreator: PageControlBody
 
         public var body: some View {
             HStack(spacing: theme.spacing) {
-                bodyCreator(pageCount, selectedPage, theme)
+                bodyCreator(pageCount, $selectedPage, theme)
             }.modifier(Background(theme: theme))
         }
     }
 
     public struct Vertical<Body>: View where Body: View {
-        public typealias PageControlBody = (Int, Int, PageControlTheme) -> Body
+        public typealias PageControlBody = (Int, Binding<Int>, PageControlTheme) -> Body
         
         public let pageCount: Int
-        public let selectedPage: Int
+        @Binding public var selectedPage: Int
         public let theme: PageControlTheme
         public let bodyCreator: PageControlBody
 
         public var body: some View {
             VStack(spacing: theme.spacing) {
-                bodyCreator(pageCount, selectedPage, theme)
+                bodyCreator(pageCount, $selectedPage, theme)
             }.modifier(Background(theme: theme))
         }
     }
@@ -58,7 +58,7 @@ public enum PageControl {
     
     public struct DefaultPageControlBody: View {
         public let pageCount: Int
-        public let selectedPage: Int
+        @Binding public var selectedPage: Int
         public let theme: PageControlTheme
         
         public var body: some View {
@@ -78,13 +78,13 @@ public enum PageControl {
         }
     }
     
-    public static func DefaultHorizontal(pageCount: Int, selectedPage: Int, theme: PageControlTheme) -> Horizontal<DefaultPageControlBody> {
+    public static func DefaultHorizontal(pageCount: Int, selectedPage: Binding<Int>, theme: PageControlTheme) -> Horizontal<DefaultPageControlBody> {
         return Horizontal(pageCount: pageCount, selectedPage: selectedPage, theme: theme) {
             DefaultPageControlBody(pageCount: $0, selectedPage: $1, theme: $2)
         }
     }
     
-    public static func DefaultVertical(pageCount: Int, selectedPage: Int, theme: PageControlTheme) -> Vertical<DefaultPageControlBody> {
+    public static func DefaultVertical(pageCount: Int, selectedPage: Binding<Int>, theme: PageControlTheme) -> Vertical<DefaultPageControlBody> {
         return Vertical(pageCount: pageCount, selectedPage: selectedPage, theme: theme) {
             DefaultPageControlBody(pageCount: $0, selectedPage: $1, theme: $2)
         }
@@ -94,7 +94,7 @@ public enum PageControl {
 #if DEBUG
 struct PageControl_Previews: PreviewProvider {
     static var previews: some View {
-        PageControl.DefaultHorizontal(pageCount: 3, selectedPage: 0, theme: .default)
+        PageControl.DefaultHorizontal(pageCount: 3, selectedPage: .constant(0), theme: .default)
     }
 }
 #endif
