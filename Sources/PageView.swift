@@ -33,9 +33,9 @@ public struct PageView: View {
         
     private func onDragChanged(_ value: DragGesture.Value, geometry: GeometryProxy) {
         if axis == .horizontal {
-            state.horizontalDragChanged(value, pageWidth: geometry.size.width)
+            state.horizontalDragChanged(value, viewCount: views.count, pageWidth: geometry.size.width)
         } else {
-            state.verticalDragChanged(value, pageHeight: geometry.size.height)
+            state.verticalDragChanged(value, viewCount: views.count, pageHeight: geometry.size.height)
         }
     }
     

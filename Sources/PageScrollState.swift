@@ -12,18 +12,27 @@ class PageScrollState: ObservableObject {
     @Published var contentOffset: CGFloat = 0.0
     var scrollOffset: CGFloat = 0.0
     
-    func horizontalDragChanged(_ value: DragGesture.Value, pageWidth: CGFloat) {
-        let delta = value.location.x - value.startLocation.x
-        contentOffset = scrollOffset + delta
+    func horizontalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
+        let delta = value.translation.width
+        if (delta > 0 && selectedPage == 0) || (delta < 0 && selectedPage == viewCount - 1) {
+            contentOffset = scrollOffset + delta / 3.0
+        } else {
+            contentOffset = scrollOffset + delta
+        }
     }
     
     func horizontalDragEnded(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
         dragEnded(value, viewCount: viewCount, dimension: pageWidth)
     }
     
-    func verticalDragChanged(_ value: DragGesture.Value, pageHeight: CGFloat) {
+    func verticalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageHeight: CGFloat) {
         let delta = value.translation.height
         contentOffset = scrollOffset + delta
+        if (delta > 0 && selectedPage == 0) || (delta < 0 && selectedPage == viewCount - 1) {
+            contentOffset = scrollOffset + delta / 3.0
+        } else {
+            contentOffset = scrollOffset + delta
+        }
     }
     
     func verticalDragEnded(_ value: DragGesture.Value, viewCount: Int, pageHeight: CGFloat) {
@@ -48,7 +57,7 @@ class PageScrollState: ObservableObject {
             newOffset = -CGFloat(newPage) * dimension
         }
         
-        withAnimation(.easeInOut(duration: 0.25)) {
+        withAnimation(.easeInOut(duration: 0.2)) {
             self.contentOffset = newOffset
             self.selectedPage = newPage
             self.scrollOffset = self.contentOffset
