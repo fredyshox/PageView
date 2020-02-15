@@ -7,11 +7,12 @@
 //
 
 import SwiftUI
-import PageView
+//import PageView
 
 struct ContentView: View {
     var body: some View {
-        PageView(pageCount: 3) { (i) -> AnyView in
+        // Horizontal
+        PageView(axis: .horizontal, pageCount: 3) { (i) -> AnyView in
             if i == 0 {
                 return CustomView().eraseToAnyView()
             } else if i == 1 {
@@ -19,7 +20,17 @@ struct ContentView: View {
             } else {
                 return CustomView().eraseToAnyView()
             }
-        }.edgesIgnoringSafeArea(.bottom)
+        }.edgesIgnoringSafeArea([.leading, .trailing, .bottom])
+        // Vertical
+//        PageView(axis: .horizontal, pageCount: 3) { (i) -> AnyView in
+//            if i == 0 {
+//                return CustomView().eraseToAnyView()
+//            } else if i == 1 {
+//                return CustomListView().eraseToAnyView()
+//            } else {
+//                return CustomView().eraseToAnyView()
+//            }
+//        }.edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
 }
 

@@ -6,7 +6,7 @@ SwiftUI view enabling page-based navigation, imitating the behaviour of `UIPageV
 
 ## Why
 
-SwiftUI doesn't have any kind of paging control component,  with features similar to `UIPageViewController` from UIKit. While on iOS this could be solved by wrapping `UIPageControl` into  `UIViewRepresentable`, on watchOS horizontal paging functionality cannot be achieved without using storyboards, which forces developers into using multiple WKHostingControllers.
+SwiftUI doesn't have any kind of paging control component,  with features similar to `UIPageViewController` from UIKit. While on iOS this could be solved by wrapping `UIPageViewController` into  `UIViewRepresentable`, on watchOS horizontal/vertical paging functionality cannot be achieved without using storyboards, which forces developers into using multiple WKHostingControllers.
 
 This package attempts to provide native SwiftUI component for navigation between pages of content.
 
@@ -52,6 +52,14 @@ PageView(pageCount: 3) { pageIndex in
 
 By default `PageView` fills all the available area, you can constrain it's size using `.frame(width:, height:)` View modifier.
 
+Paging axis can be specified using axis parameter. Axis can be `.vertical` or `.horizontal`. By default `PageView` assumes `.horizontal` axis.
+
+```swift
+PageView(axis: .vertical, pageCount: 4) { pageIndex in
+    ...
+}
+```
+
 You can customize the styling of page control component by passing `PageControlTheme`. Customizable properties:
 * background color
 * active page dot color
@@ -78,7 +86,6 @@ PageView(theme: theme, pageCount: 4) { pageIndex in
 ```
 
 There is also a built-in `PageControlTheme.default` style, mimicking `UIPageControl` appearance.
-
 
 ## Screenshots
 
