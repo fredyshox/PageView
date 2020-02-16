@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-public struct PageView: View {
+public struct PageView<Page>: View where Page: View {
     let state: PageScrollState
     public let theme: PageControlTheme
-    public let views: [AnyView]
+    public let views: [Page]
     public let axis: Axis
     
-    public init(axis: Axis = .horizontal, theme: PageControlTheme = .default, pageCount: Int, pageContent: @escaping (Int) -> AnyView) {
+    public init(axis: Axis = .horizontal, theme: PageControlTheme = .default, pageCount: Int, pageContent: @escaping (Int) -> Page) {
         self.state = PageScrollState()
         self.theme = theme
         self.views = (0..<pageCount).map { pageContent($0) }

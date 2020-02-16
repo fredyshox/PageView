@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct PageContent: View {
+struct PageContent<Page>: View where Page: View {
     @ObservedObject var state: PageScrollState
     let theme: PageControlTheme
-    let views: [AnyView]
+    let views: [Page]
     let axis: Axis
     let geometry: GeometryProxy
     
