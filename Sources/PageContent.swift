@@ -41,7 +41,12 @@ struct PageContent: View {
     
     private func horizontalOffset(using geometry: GeometryProxy, alignment: HorizontalAlignment) -> CGFloat {
         // currently for center only
-        return (geometry.size.width / 2) * CGFloat(self.views.count - 1) + self.state.contentOffset
+        let baseValue = (geometry.size.width / 2) * CGFloat(views.count - 1)
+        if state.isGestureActive {
+            return baseValue + state.contentOffset
+        } else {
+            return baseValue + -1 * CGFloat(state.selectedPage) * geometry.size.width
+        }
     }
     
     private func vertical(using geometry: GeometryProxy) -> some View {
@@ -63,6 +68,11 @@ struct PageContent: View {
     
     private func verticalOffset(using geometry: GeometryProxy, alignment: VerticalAlignment) -> CGFloat {
         // currently center only
-        return (geometry.size.height / 2) * CGFloat(self.views.count - 1) + self.state.contentOffset
+        let baseValue = (geometry.size.height / 2) * CGFloat(views.count - 1)
+        if state.isGestureActive {
+            return baseValue + state.contentOffset
+        } else {
+            return baseValue + -1 * CGFloat(state.selectedPage) * geometry.size.height
+        }
     }
 }
