@@ -57,14 +57,14 @@ struct PageContent<Page>: View where Page: View {
                                           theme: self.theme)
                 .offset(y: -self.theme.offset)
 
-        return ZStack(alignment: Alignment(horizontal: .center, vertical: .center)) {
+        return ZStack(alignment: .center) {
             HStack(spacing: 0.0) {
                 ForEach(0..<self.views.count) { (i) in
                     self.views[i]
                         .frame(width: geometry.size.width, height: geometry.size.height)
                 }
             }
-                .offset(x: self.horizontalOffset(using: geometry, alignment: .center))
+                .offset(x: self.horizontalOffset(using: geometry))
             Rectangle()
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .disabled(true)
@@ -73,7 +73,7 @@ struct PageContent<Page>: View where Page: View {
         }.frame(width: geometry.size.width, height: geometry.size.height)
     }
     
-    private func horizontalOffset(using geometry: GeometryProxy, alignment: HorizontalAlignment) -> CGFloat {
+    private func horizontalOffset(using geometry: GeometryProxy) -> CGFloat {
         if state.isGestureActive {
             return baseOffset + state.contentOffset
         } else {
@@ -88,14 +88,14 @@ struct PageContent<Page>: View where Page: View {
                                           theme: self.theme)
                 .offset(x: self.theme.offset)
 
-        return ZStack(alignment: Alignment(horizontal: .center, vertical: .center)) {
+        return ZStack(alignment: .center) {
             VStack(spacing: 0.0) {
                 ForEach(0..<self.views.count) { (i) in
                     self.views[i]
                         .frame(width: geometry.size.width, height: geometry.size.height)
                 }
             }
-                .offset(y: self.verticalOffset(using: geometry, alignment: .center))
+                .offset(y: self.verticalOffset(using: geometry))
             Rectangle()
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .disabled(true)
@@ -104,7 +104,7 @@ struct PageContent<Page>: View where Page: View {
         }.frame(width: geometry.size.width, height: geometry.size.height)
     }
     
-    private func verticalOffset(using geometry: GeometryProxy, alignment: VerticalAlignment) -> CGFloat {
+    private func verticalOffset(using geometry: GeometryProxy) -> CGFloat {
         if state.isGestureActive {
             return baseOffset + state.contentOffset
         } else {
