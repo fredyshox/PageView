@@ -52,13 +52,23 @@ PageView(pageCount: 3) { pageIndex in
 
 By default `PageView` fills all the available area, you can constrain it's size using `.frame(width:, height:)` View modifier.
 
-Paging axis can be specified using axis parameter. Axis can be `.vertical` or `.horizontal`. By default `PageView` assumes `.horizontal` axis.
+Paging axis can be specified using `axis:` parameter. PageAxis can be `.vertical` or `.horizontal`. By default `PageView` assumes `.horizontal` axis.
 
 ```swift
 PageView(axis: .vertical, pageCount: 4) { pageIndex in
     ...
 }
 ```
+
+Alignment of page control can be specified using `alignment:` enum parameter of PageAxis. For example, to achieve top-trailing alignment with vertical axis:
+```swift
+let axis: PageAxis = .vertical(alignment: .topTrailing)
+PageView(axis: axis, pageCount: 5) {
+    ...
+}
+```
+
+Default alignment is bottom-center for horizontal axis and center-leading for vertical.
 
 You can customize the styling of page control component by passing `PageControlTheme`. Customizable properties:
 * background color
@@ -67,7 +77,7 @@ You can customize the styling of page control component by passing `PageControlT
 * size of page dot
 * spacing between dots
 * padding of page control
-* y-offset from bottom
+* page control offset
 
 ```swift
 let theme = PageControlTheme(

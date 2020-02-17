@@ -10,9 +10,11 @@ import SwiftUI
 class PageScrollState: ObservableObject {
     @Published var selectedPage: Int = 0
     @Published var contentOffset: CGFloat = 0.0
+    @Published var isGestureActive: Bool = false
     var scrollOffset: CGFloat = 0.0
     
     func horizontalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
+        isGestureActive = true
         let delta = value.translation.width
         if (delta > 0 && selectedPage == 0) || (delta < 0 && selectedPage == viewCount - 1) {
             contentOffset = scrollOffset + delta / 3.0
@@ -26,8 +28,8 @@ class PageScrollState: ObservableObject {
     }
     
     func verticalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageHeight: CGFloat) {
+        isGestureActive = true
         let delta = value.translation.height
-        contentOffset = scrollOffset + delta
         if (delta > 0 && selectedPage == 0) || (delta < 0 && selectedPage == viewCount - 1) {
             contentOffset = scrollOffset + delta / 3.0
         } else {
@@ -61,6 +63,10 @@ class PageScrollState: ObservableObject {
             self.contentOffset = newOffset
             self.selectedPage = newPage
             self.scrollOffset = self.contentOffset
+        }
+        
+        DispatchQueue.main.async {
+            self.isGestureActive = false
         }
     }
 }

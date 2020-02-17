@@ -7,62 +7,108 @@
 
 import SwiftUI
 
-struct PageContent: View {
+public enum PageAxis {
+    case horizontal(alignment: Alignment)
+    case vertical(alignment: Alignment)
+    
+    public static var horizontal: PageAxis {
+        return horizontal(alignment: Alignment(horizontal: .center, vertical: .bottom))
+    }
+    
+    public static var vertical: PageAxis {
+        return vertical(alignment: Alignment(horizontal: .leading, vertical: .center))
+    }
+}
+
+struct PageContent<Page>: View where Page: View {
     @ObservedObject var state: PageScrollState
     let theme: PageControlTheme
-    let views: [AnyView]
-    let axis: Axis
+    let views: [Page]
+    let axis: PageAxis
     let geometry: GeometryProxy
+    private let baseOffset: CGFloat
     
-    var body: some View {
-        if axis == .horizontal {
-            return AnyView(horizontal(using: geometry))
+    init(state: PageScrollState, theme: PageControlTheme, views: [Page], axis: PageAxis, geometry: GeometryProxy) {
+        self.state = state
+        self.theme = theme
+        self.views = views
+        self.axis = axis
+        self.geometry = geometry
+        if case .horizontal(_) = axis {
+            self.baseOffset = (geometry.size.width / 2) * CGFloat(views.count - 1)
         } else {
-            return AnyView(vertical(using: geometry))
+            self.baseOffset = (geometry.size.height / 2) * CGFloat(views.count - 1)
         }
     }
     
-    private func horizontal(using geometry: GeometryProxy) -> some View {
-        let alignment = Alignment(horizontal: .center, vertical: .bottom)
-        return
-            ZStack(alignment: alignment) {
-                HStack(spacing: 0.0) {
-                    ForEach(0..<self.views.count) { (i) in
-                        self.views[i]
-                            .frame(width: geometry.size.width, height: geometry.size.height)
-                    }
+    var body: some View {
+        switch axis {
+        case .horizontal(alignment: let alignment):
+            return AnyView(horizontal(using: geometry, alignment: alignment))
+        case .vertical(alignment: let alignment):
+            return AnyView(vertical(using: geometry, alignment: alignment))
+        }
+    }
+    
+    private func horizontal(using geometry: GeometryProxy, alignment: Alignment) -> some View {
+        let pageControl =
+            PageControl.DefaultHorizontal(pageCount: self.views.count,
+                                          selectedPage: self.$state.selectedPage,
+                                          theme: self.theme)
+                .offset(y: -self.theme.offset)
+
+        return ZStack(alignment: .center) {
+            HStack(spacing: 0.0) {
+                ForEach(0..<self.views.count) { (i) in
+                    self.views[i]
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                 }
-                    .offset(x: self.horizontalOffset(using: geometry, alignment: .center))
-                PageControl.DefaultHorizontal(pageCount: self.views.count, selectedPage: self.$state.selectedPage, theme: self.theme)
-                    .offset(y: -self.theme.offset)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
+                .offset(x: self.horizontalOffset(using: geometry))
+            Rectangle()
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .disabled(true)
+                .foregroundColor(.clear)
+                .overlay(pageControl, alignment: alignment)
+        }.frame(width: geometry.size.width, height: geometry.size.height)
     }
     
-    private func horizontalOffset(using geometry: GeometryProxy, alignment: HorizontalAlignment) -> CGFloat {
-        // currently for center only
-        return (geometry.size.width / 2) * CGFloat(self.views.count - 1) + self.state.contentOffset
+    private func horizontalOffset(using geometry: GeometryProxy) -> CGFloat {
+        if state.isGestureActive {
+            return baseOffset + state.contentOffset
+        } else {
+            return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.width
+        }
     }
     
-    private func vertical(using geometry: GeometryProxy) -> some View {
-        let alignment = Alignment(horizontal: .leading, vertical: .center)
-        return
-            ZStack(alignment: alignment) {
-                VStack(spacing: 0.0) {
-                    ForEach(0..<self.views.count) { (i) in
-                        self.views[i]
-                            .frame(width: geometry.size.width, height: geometry.size.height)
-                    }
+    private func vertical(using geometry: GeometryProxy, alignment: Alignment) -> some View {
+        let pageControl =
+            PageControl.DefaultVertical(pageCount: self.views.count,
+                                          selectedPage: self.$state.selectedPage,
+                                          theme: self.theme)
+                .offset(x: self.theme.offset)
+
+        return ZStack(alignment: .center) {
+            VStack(spacing: 0.0) {
+                ForEach(0..<self.views.count) { (i) in
+                    self.views[i]
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                 }
-                    .offset(y: self.verticalOffset(using: geometry, alignment: .center))
-                PageControl.DefaultVertical(pageCount: self.views.count, selectedPage: self.$state.selectedPage, theme: self.theme)
-                    .offset(x: self.theme.offset)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
+                .offset(y: self.verticalOffset(using: geometry))
+            Rectangle()
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .disabled(true)
+                .foregroundColor(.clear)
+                .overlay(pageControl, alignment: alignment)
+        }.frame(width: geometry.size.width, height: geometry.size.height)
     }
     
-    private func verticalOffset(using geometry: GeometryProxy, alignment: VerticalAlignment) -> CGFloat {
-        // currently center only
-        return (geometry.size.height / 2) * CGFloat(self.views.count - 1) + self.state.contentOffset
+    private func verticalOffset(using geometry: GeometryProxy) -> CGFloat {
+        if state.isGestureActive {
+            return baseOffset + state.contentOffset
+        } else {
+            return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.height
+        }
     }
 }
