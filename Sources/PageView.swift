@@ -11,9 +11,9 @@ public struct PageView<Page>: View where Page: View {
     let state: PageScrollState
     public let theme: PageControlTheme
     public let views: [Page]
-    public let axis: Axis
+    public let axis: PageAxis
     
-    public init(axis: Axis = .horizontal, theme: PageControlTheme = .default, pageCount: Int, pageContent: @escaping (Int) -> Page) {
+    public init(axis: PageAxis = .horizontal, theme: PageControlTheme = .default, pageCount: Int, pageContent: @escaping (Int) -> Page) {
         self.state = PageScrollState()
         self.theme = theme
         self.views = (0..<pageCount).map { pageContent($0) }
@@ -32,7 +32,7 @@ public struct PageView<Page>: View where Page: View {
     }
         
     private func onDragChanged(_ value: DragGesture.Value, geometry: GeometryProxy) {
-        if axis == .horizontal {
+        if case .horizontal(_) = axis {
             state.horizontalDragChanged(value, viewCount: views.count, pageWidth: geometry.size.width)
         } else {
             state.verticalDragChanged(value, viewCount: views.count, pageHeight: geometry.size.height)
@@ -40,7 +40,7 @@ public struct PageView<Page>: View where Page: View {
     }
     
     private func onDragEnded(_ value: DragGesture.Value, geometry: GeometryProxy) {
-        if axis == .horizontal {
+        if case .horizontal(_) = axis {
             state.horizontalDragEnded(value, viewCount: views.count, pageWidth: geometry.size.width)
         } else {
             state.verticalDragEnded(value, viewCount: views.count, pageHeight: geometry.size.height)

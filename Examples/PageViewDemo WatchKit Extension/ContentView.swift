@@ -22,11 +22,11 @@ struct ContentView: View {
             }
         }.edgesIgnoringSafeArea([.leading, .trailing, .bottom])
         // Vertical
-//        PageView(axis: .horizontal, pageCount: 3) { (i) -> AnyView in
+//        PageView(axis: .vertical(alignment: Alignment(horizontal: .trailing, vertical: .top)), pageCount: 3) { (i) -> AnyView in
 //            if i == 0 {
 //                return CustomView().eraseToAnyView()
 //            } else if i == 1 {
-//                return CustomListView().eraseToAnyView()
+//                return CustomView().eraseToAnyView()
 //            } else {
 //                return CustomView().eraseToAnyView()
 //            }
