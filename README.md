@@ -18,7 +18,7 @@ Package requires iOS 13, watchOS 6 and Xcode 11.
 
 For Swift Package Manager add the following package to your Package.swift:
 ```swift
-.package(url: "https://github.com/fredyshox/PageView.git", .upToNextMajor(from: "1.1.0")),
+.package(url: "https://github.com/fredyshox/PageView.git", .upToNextMajor(from: "1.3.0")),
 ```
 
 ### Carthage
@@ -26,7 +26,7 @@ For Swift Package Manager add the following package to your Package.swift:
 
 Carthage is also supported, add FormView by adding to Cartfile:
 ```
-github "fredyshox/PageView" ~> 1.1.0
+github "fredyshox/PageView" ~> 1.3.0
 ```
 
 ## Demo
@@ -39,36 +39,25 @@ Demo app for both iOS and watchOS is provided in `Examples/` directory.
 import PageView
 ```
 
-Add paged view with 3 pages using following code:
+PageView component is available as `HPageView` or `VPageView` depending on scroll direction (horizontal and vertical, respectively).
+To add paged view with 3 pages use following code:
 ```swift
-PageView(pageCount: 3) { pageIndex in
-    if pageIndex == 0 || pageIndex == 1 {
-        return AnyView(SomeCustomView())
-    } else {
-        return AnyView(AnotherCustomView())
-    }
+// horizontal axis
+HPageView {
+    SomeCustomView()
+    AnotherCustomView()
+    AnotherCustomView()
+}
+
+// vertical axis
+VPageView {
+    SomeCustomView()
+    AnotherCustomView()
+    AnotherCustomView()
 }
 ```
 
-By default `PageView` fills all the available area, you can constrain it's size using `.frame(width:, height:)` View modifier.
-
-Paging axis can be specified using `axis:` parameter. PageAxis can be `.vertical` or `.horizontal`. By default `PageView` assumes `.horizontal` axis.
-
-```swift
-PageView(axis: .vertical, pageCount: 4) { pageIndex in
-    ...
-}
-```
-
-Alignment of page control can be specified using `alignment:` enum parameter of PageAxis. For example, to achieve top-trailing alignment with vertical axis:
-```swift
-let axis: PageAxis = .vertical(alignment: .topTrailing)
-PageView(axis: axis, pageCount: 5) {
-    ...
-}
-```
-
-Default alignment is bottom-center for horizontal axis and center-leading for vertical.
+By default PageView fills all the available area, you can constrain it's size using `.frame(width:, height:)` View modifier.
 
 You can customize the styling of page control component by passing `PageControlTheme`. Customizable properties:
 * background color
@@ -78,6 +67,7 @@ You can customize the styling of page control component by passing `PageControlT
 * spacing between dots
 * padding of page control
 * page control offset
+* alignment of page control component (default: bottom-center for horizontal axis, center-leading for vertical axis)
 
 ```swift
 let theme = PageControlTheme(
@@ -87,10 +77,11 @@ let theme = PageControlTheme(
     dotSize: 10.0,
     spacing: 12.0,
     padding: 5.0,
-    offset: 8.0
+    offset: 8.0,
+    alignment: Alignment(horizontal: .trailing, vertical: .top)
 )
 ...
-PageView(theme: theme, pageCount: 4) { pageIndex in
+VPageView(theme: theme) {
     ...
 }
 ```
