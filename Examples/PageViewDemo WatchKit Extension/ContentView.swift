@@ -12,24 +12,23 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         // Horizontal
-        HPageView(pageCount: 6) {
+        HPageView {
             CustomView()
             CustomListView()
             CustomView()
             CustomView()
             CustomView()
             CustomView()
-        }.edgesIgnoringSafeArea([.leading, .trailing, .bottom])
+        }.edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
         // Vertical
-//        PageView(axis: .vertical(alignment: Alignment(horizontal: .trailing, vertical: .top)), pageCount: 3) { (i) -> AnyView in
-//            if i == 0 {
-//                return CustomView().eraseToAnyView()
-//            } else if i == 1 {
-//                return CustomView().eraseToAnyView()
-//            } else {
-//                return CustomView().eraseToAnyView()
-//            }
-//        }.edgesIgnoringSafeArea([.leading, .trailing, .bottom])
+//        VPageView {
+//            CustomView()
+//            CustomListView()
+//            CustomView()
+//            CustomView()
+//            CustomView()
+//            CustomView()
+//        }.edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
     }
 }
 

@@ -10,14 +10,18 @@ import SwiftUI
 public struct HPageView<Pages>: View where Pages: View {
     let state: PageScrollState
     public let theme: PageControlTheme
-    public let pages: Pages
+    public let pages: PageContainer<Pages>
     public let pageCount: Int
+    public let pageControlAlignment: Alignment
     
-    public init(theme: PageControlTheme = .default, pageCount: Int, @ViewBuilder builder: () -> Pages) {
+    public init(theme: PageControlTheme = .default, @PageViewBuilder builder: () -> PageContainer<Pages>) {
         self.state = PageScrollState()
         self.theme = theme
-        self.pages = builder()
-        self.pageCount = pageCount
+        let pages = builder()
+        self.pages = pages
+        self.pageCount = pages.count
+        self.pageControlAlignment =
+            theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
     }
     
     public var body: some View {
@@ -30,7 +34,7 @@ public struct HPageView<Pages>: View where Pages: View {
         return GeometryReader { geometry in
             PageContent(state: self.state,
                         axis: .horizontal,
-                        alignment: Alignment(horizontal: .center, vertical: .bottom),
+                        alignment: self.pageControlAlignment,
                         geometry: geometry,
                         childCount: self.pageCount,
                         compositeView: HorizontalPageStack(pages: self.pages, geometry: geometry),
@@ -55,14 +59,18 @@ public struct HPageView<Pages>: View where Pages: View {
 public struct VPageView<Pages>: View where Pages: View {
     let state: PageScrollState
     public let theme: PageControlTheme
-    public let pages: Pages
+    public let pages: PageContainer<Pages>
     public let pageCount: Int
+    public let pageControlAlignment: Alignment
     
-    public init(theme: PageControlTheme = .default, pageCount: Int, @ViewBuilder builder: () -> Pages) {
+    public init(theme: PageControlTheme = .default, @PageViewBuilder builder: () -> PageContainer<Pages>) {
         self.state = PageScrollState()
         self.theme = theme
-        self.pages = builder()
-        self.pageCount = pageCount
+        let pages = builder()
+        self.pages = pages
+        self.pageCount = pages.count
+        self.pageControlAlignment =
+            theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
     }
     
     public var body: some View {
@@ -75,7 +83,7 @@ public struct VPageView<Pages>: View where Pages: View {
         return GeometryReader { geometry in
             PageContent(state: self.state,
                         axis: .vertical,
-                        alignment: Alignment(horizontal: .center, vertical: .bottom),
+                        alignment: self.pageControlAlignment,
                         geometry: geometry,
                         childCount: self.pageCount,
                         compositeView: VerticalPageStack(pages: self.pages, geometry: geometry),
@@ -96,49 +104,6 @@ public struct VPageView<Pages>: View where Pages: View {
         state.verticalDragEnded(value, viewCount: pageCount, pageHeight: geometry.size.height)
     }
 }
- 
-//public struct PageView<Pages>: View where Pages: View {
-//    let state: PageScrollState
-//    public let theme: PageControlTheme
-//    public let pages: Pages
-//    public let pageCount: Int
-//    public let axis: PageAxis
-//
-//    public init(axis: PageAxis = .horizontal, theme: PageControlTheme = .default, pageCount: Int, @ViewBuilder builder: () -> Pages) {
-//        self.state = PageScrollState()
-//        self.theme = theme
-//        self.pages = builder()
-//        self.pageCount = pageCount
-//        self.axis = axis
-//    }
-//
-//    public var body: some View {
-//        GeometryReader { geometry in
-//            PageContent(state: self.state, theme: self.theme, axis: self.axis, geometry: geometry, childCount: self.pageCount, compositeView: self.pages)
-//                .contentShape(Rectangle())
-//                .gesture(DragGesture(minimumDistance: 8.0)
-//                    .onChanged({ self.onDragChanged($0, geometry: geometry) })
-//                    .onEnded({ self.onDragEnded($0, geometry: geometry) })
-//                )
-//        }
-//    }
-//
-//    private func onDragChanged(_ value: DragGesture.Value, geometry: GeometryProxy) {
-//        if case .horizontal(_) = axis {
-//            state.horizontalDragChanged(value, viewCount: pageCount, pageWidth: geometry.size.width)
-//        } else {
-//            state.verticalDragChanged(value, viewCount: pageCount, pageHeight: geometry.size.height)
-//        }
-//    }
-//
-//    private func onDragEnded(_ value: DragGesture.Value, geometry: GeometryProxy) {
-//        if case .horizontal(_) = axis {
-//            state.horizontalDragEnded(value, viewCount: pageCount, pageWidth: geometry.size.width)
-//        } else {
-//            state.verticalDragEnded(value, viewCount: pageCount, pageHeight: geometry.size.height)
-//        }
-//    }
-//}
 
 #if DEBUG
 struct PageView_Previews: PreviewProvider {
@@ -163,7 +128,7 @@ struct PageView_Previews: PreviewProvider {
                 .fontWeight(.bold)
                 .foregroundColor(.gray)
         }
-        return HPageView(pageCount: 3) {
+        return HPageView {
             v1
             v2
         }

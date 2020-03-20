@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        HPageView(pageCount: 3) {
+        HPageView {
             CustomView()
             CustomListView()
             CustomView()
