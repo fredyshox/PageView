@@ -13,9 +13,9 @@ struct ContentView: View {
     var body: some View {
         // Horizontal
         HPageView {
-            CustomView()
-            CustomListView()
-            CustomView()
+            CustomButtonView()
+            CustomButtonView()
+            CustomButtonView()
             CustomView()
             CustomView()
             CustomView()

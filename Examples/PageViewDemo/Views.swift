@@ -14,6 +14,23 @@ extension View {
     }
 }
 
+struct CustomButtonView: View {
+    var body: some View {
+        VStack {
+            Button(action: {
+                print("Button 1 tapped")
+            }, label: {
+                Text("Button 1")
+            })
+            Button(action: {
+                print("Button 2 tapped")
+            }, label: {
+                Text("Button 2")
+            })
+        }
+    }
+}
+
 struct CustomView: View {
     var body: some View {
         VStack {
