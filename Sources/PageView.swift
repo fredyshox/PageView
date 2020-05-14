@@ -40,10 +40,10 @@ public struct HPageView<Pages>: View where Pages: View {
                         compositeView: HorizontalPageStack(pages: self.pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                   .gesture(DragGesture(minimumDistance: 8.0)
-                       .onChanged({ self.onDragChanged($0, geometry: geometry) })
-                       .onEnded({ self.onDragEnded($0, geometry: geometry) })
-                   )
+                .highPriorityGesture(DragGesture(minimumDistance: 8.0)
+                    .onChanged({ self.onDragChanged($0, geometry: geometry) })
+                    .onEnded({ self.onDragEnded($0, geometry: geometry) })
+                )
         }
     }
     
@@ -89,10 +89,10 @@ public struct VPageView<Pages>: View where Pages: View {
                         compositeView: VerticalPageStack(pages: self.pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                   .gesture(DragGesture(minimumDistance: 8.0)
-                       .onChanged({ self.onDragChanged($0, geometry: geometry) })
-                       .onEnded({ self.onDragEnded($0, geometry: geometry) })
-                   )
+                .highPriorityGesture(DragGesture(minimumDistance: 8.0)
+                    .onChanged({ self.onDragChanged($0, geometry: geometry) })
+                    .onEnded({ self.onDragEnded($0, geometry: geometry) })
+                )
         }
     }
     

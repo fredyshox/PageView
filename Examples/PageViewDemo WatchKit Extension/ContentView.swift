@@ -13,18 +13,18 @@ struct ContentView: View {
     var body: some View {
         // Horizontal
         HPageView {
+            CustomButtonView()
+            CustomButtonView()
+            CustomButtonView()
             CustomView()
             CustomListView()
-            CustomView()
-            CustomView()
-            CustomView()
             CustomView()
         }.edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
         // Vertical
 //        VPageView {
-//            CustomView()
-//            CustomListView()
-//            CustomView()
+//            CustomButtonView()
+//            CustomButtonView()
+//            CustomButtonView()
 //            CustomView()
 //            CustomView()
 //            CustomView()
