@@ -17,14 +17,14 @@ struct ContentView: View {
             CustomButtonView()
             CustomButtonView()
             CustomView()
-            CustomView()
+            CustomListView()
             CustomView()
         }.edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
         // Vertical
 //        VPageView {
-//            CustomView()
-//            CustomListView()
-//            CustomView()
+//            CustomButtonView()
+//            CustomButtonView()
+//            CustomButtonView()
 //            CustomView()
 //            CustomView()
 //            CustomView()
