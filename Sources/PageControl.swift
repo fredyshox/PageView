@@ -35,7 +35,9 @@ public enum PageControl {
         public var body: some View {
             HStack(spacing: theme.spacing) {
                 bodyCreator(pageCount, $selectedPage, theme)
-            }.modifier(Background(theme: theme))
+            }
+                .modifier(Background(theme: theme))
+                .offset(x: 0.0, y: theme.yOffset)
         }
     }
 
@@ -50,7 +52,9 @@ public enum PageControl {
         public var body: some View {
             VStack(spacing: theme.spacing) {
                 bodyCreator(pageCount, $selectedPage, theme)
-            }.modifier(Background(theme: theme))
+            }
+                .modifier(Background(theme: theme))
+                .offset(x: theme.xOffset, y: 0.0)
         }
     }
     

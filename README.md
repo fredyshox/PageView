@@ -26,7 +26,7 @@ For Swift Package Manager add the following package to your Package.swift:
 
 Carthage is also supported, add FormView by adding to Cartfile:
 ```
-github "fredyshox/PageView" ~> 1.3.1
+github "fredyshox/PageView" ~> 1.3.2
 ```
 
 ## Demo
@@ -60,14 +60,15 @@ VPageView {
 By default PageView fills all the available area, you can constrain it's size using `.frame(width:, height:)` View modifier.
 
 You can customize the styling of page control component by passing `PageControlTheme`. Customizable properties:
-* background color
-* active page dot color
-* inactive page dot color
-* size of page dot
-* spacing between dots
-* padding of page control
-* page control offset
-* alignment of page control component (default: bottom-center for horizontal axis, center-leading for vertical axis)
+* `backgroundColor`
+* `dotActiveColor`: active page dot color
+* `dotInactiveColor`: inactive page dot color
+* `dotSize`: size of page dot
+* `spacing`: spacing between dots
+* `padding`: padding of page control
+* `xOffset`: page control x-axis offset, used only in vertical mode
+* `yOffset`: page control y-axis offset, used only in horizontal mode
+* `alignment`: alignment of page control component (default: bottom-center in horizontal mode, center-leading in vertical mode)
 
 ```swift
 let theme = PageControlTheme(
@@ -77,7 +78,8 @@ let theme = PageControlTheme(
     dotSize: 10.0,
     spacing: 12.0,
     padding: 5.0,
-    offset: 8.0,
+  	xOffset: 8.0,
+    yOffset: -8.0,
     alignment: Alignment(horizontal: .trailing, vertical: .top)
 )
 ...

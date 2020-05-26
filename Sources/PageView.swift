@@ -128,7 +128,12 @@ struct PageView_Previews: PreviewProvider {
                 .fontWeight(.bold)
                 .foregroundColor(.gray)
         }
-        return HPageView {
+        
+        var theme = PageControlTheme.default
+        theme.alignment = Alignment(horizontal: .center, vertical: .bottom)
+        theme.yOffset = -14
+        
+        return HPageView(theme: theme) {
             v1
             v2
         }
