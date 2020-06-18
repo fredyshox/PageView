@@ -18,6 +18,28 @@ public struct PageControlTheme {
     public var yOffset: CGFloat
     public var alignment: Alignment?
     
+    public init(
+        backgroundColor: Color,
+        dotActiveColor: Color,
+        dotInactiveColor: Color,
+        dotSize: CGFloat,
+        spacing: CGFloat,
+        padding: CGFloat,
+        xOffset: CGFloat,
+        yOffset: CGFloat,
+        alignment: Alignment? = nil
+    ) {
+        self.backgroundColor = backgroundColor
+        self.dotActiveColor = dotActiveColor
+        self.dotInactiveColor = dotInactiveColor
+        self.dotSize = dotSize
+        self.spacing = spacing
+        self.padding = padding
+        self.xOffset = xOffset
+        self.yOffset = yOffset
+        self.alignment = alignment
+    }
+    
     public static var `default`: PageControlTheme {
         #if os(iOS)
             return PageControlTheme(
