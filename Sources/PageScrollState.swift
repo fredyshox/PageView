@@ -17,12 +17,14 @@ class PageScrollState: ObservableObject {
     }
     
     // MARK: Properties
-        
+    
+    let switchThreshold: CGFloat
     @Binding var selectedPage: Int
     @Published var pageOffset: CGFloat = 0.0
     @Published var isGestureActive: Bool = false
     
-    init(selectedPageBinding: Binding<Int>) {
+    init(switchThreshold: CGFloat, selectedPageBinding: Binding<Int>) {
+        self.switchThreshold = switchThreshold
         self._selectedPage = selectedPageBinding
     }
     
@@ -58,9 +60,9 @@ class PageScrollState: ObservableObject {
     
     private func dragEnded(_ value: DragGesture.Value, viewCount: Int, dimension: CGFloat) {
         var newPage = selectedPage
-        if pageOffset > 0.5*dimension && selectedPage != 0 {
+        if pageOffset > switchThreshold*dimension && selectedPage != 0 {
             newPage -= 1
-        } else if pageOffset < -0.5*dimension && selectedPage != viewCount - 1 {
+        } else if pageOffset < -switchThreshold*dimension && selectedPage != viewCount - 1 {
             newPage += 1
         }
         

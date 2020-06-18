@@ -17,11 +17,13 @@ public struct HPageView<Pages>: View where Pages: View {
     
     public init(
         selectedPage: Binding<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
-        let state = PageScrollState(selectedPageBinding: selectedPage)
-        self.state = state
+        // prevent values outside of 0...1
+        let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
+        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -76,10 +78,13 @@ public struct VPageView<Pages>: View where Pages: View {
     
     public init(
         selectedPage: Binding<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
-        self.state = PageScrollState(selectedPageBinding: selectedPage)
+        // prevent values outside of 0...1
+        let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
+        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -121,6 +126,18 @@ public struct VPageView<Pages>: View where Pages: View {
                     */
                 )
         }
+    }
+}
+
+extension CGFloat {
+    public static var defaultSwitchThreshold: CGFloat {
+        #if os(iOS)
+        return 0.3
+        #elseif os(watchOS)
+        return 0.5
+        #else
+        return 0.5
+        #endif
     }
 }
 
