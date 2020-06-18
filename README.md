@@ -119,22 +119,22 @@ There is also a built-in `PageControlTheme.default` style, mimicking `UIPageCont
 ```swift
 // Horizontal page view
 public struct HPageView<Pages>: View where Pages: View {
-	public init(
-  	selectedPage: Binding<Int>,
-    pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
-    theme: PageControlTheme = .default,
-    @PageViewBuilder builder: () -> PageContainer<Pages>
-	)
+    public init(
+        selectedPage: Binding<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        @PageViewBuilder builder: () -> PageContainer<Pages>
+    )
 }
 
 // Vertical page view
 public struct VPageView<Pages>: View where Pages: View {
-	public init(
-  	selectedPage: Binding<Int>,
-    pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
-    theme: PageControlTheme = .default,
-    @PageViewBuilder builder: () -> PageContainer<Pages>
-	)
+    public init(
+        selectedPage: Binding<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        @PageViewBuilder builder: () -> PageContainer<Pages>
+    )
 }
 
 public struct PageControlTheme {
