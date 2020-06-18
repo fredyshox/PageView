@@ -8,9 +8,25 @@
 import SwiftUI
 
 class PageScrollState: ObservableObject {
-    @Published var selectedPage: Int = 0
+    
+    // MARK: Types
+    
+    struct TransactionInfo {
+        var dragValue: DragGesture.Value!
+        var geometryProxy: GeometryProxy!
+    }
+    
+    // MARK: Properties
+        
+    @Binding var selectedPage: Int
     @Published var pageOffset: CGFloat = 0.0
     @Published var isGestureActive: Bool = false
+    
+    init(selectedPageBinding: Binding<Int>) {
+        self._selectedPage = selectedPageBinding
+    }
+    
+    // MARK: DragGesture callbacks
     
     func horizontalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
         isGestureActive = true
@@ -55,6 +71,24 @@ class PageScrollState: ObservableObject {
         
         DispatchQueue.main.async {
             self.isGestureActive = false
+        }
+    }
+    
+    // MARK: Gesture States
+    
+    func horizontalGestureState(pageCount: Int) -> GestureState<TransactionInfo> {
+        return GestureState(initialValue: TransactionInfo()) { [weak self] (info, _) in
+            let width = info.geometryProxy.size.width
+            let dragValue = info.dragValue!
+            self?.horizontalDragEnded(dragValue, viewCount: pageCount, pageWidth: width)
+        }
+    }
+    
+    func verticalGestureState(pageCount: Int) -> GestureState<TransactionInfo> {
+        return GestureState(initialValue: TransactionInfo()) { [weak self] (info, _) in
+            let height = info.geometryProxy.size.height
+            let dragValue = info.dragValue!
+            self?.verticalDragEnded(dragValue, viewCount: pageCount, pageHeight: height)
         }
     }
 }

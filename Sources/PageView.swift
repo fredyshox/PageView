@@ -13,15 +13,22 @@ public struct HPageView<Pages>: View where Pages: View {
     public let pages: PageContainer<Pages>
     public let pageCount: Int
     public let pageControlAlignment: Alignment
+    @GestureState var stateTransaction: PageScrollState.TransactionInfo
     
-    public init(theme: PageControlTheme = .default, @PageViewBuilder builder: () -> PageContainer<Pages>) {
-        self.state = PageScrollState()
+    public init(
+        selectedPage: Binding<Int>,
+        theme: PageControlTheme = .default,
+        @PageViewBuilder builder: () -> PageContainer<Pages>
+    ) {
+        let state = PageScrollState(selectedPageBinding: selectedPage)
+        self.state = state
         self.theme = theme
         let pages = builder()
         self.pages = pages
         self.pageCount = pages.count
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
+        self._stateTransaction = state.horizontalGestureState(pageCount: pages.count)
     }
     
     public var body: some View {
@@ -41,18 +48,21 @@ public struct HPageView<Pages>: View where Pages: View {
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
                 .highPriorityGesture(DragGesture(minimumDistance: 8.0)
-                    .onChanged({ self.onDragChanged($0, geometry: geometry) })
-                    .onEnded({ self.onDragEnded($0, geometry: geometry) })
+                    .updating(self.$stateTransaction, body: { value, state, _ in
+                        state.dragValue = value
+                        state.geometryProxy = geometry
+                    })
+                    .onChanged({
+                        let width = geometry.size.width
+                        let pageCount = self.pageCount
+                        self.state.horizontalDragChanged($0, viewCount: pageCount, pageWidth: width)
+                    })
+                    /*
+                     There is a bug, where onEnded is not called, when gesture is cancelled.
+                     So onEnded is handled using reset handler in `GestureState` (look `PageScrollState`)
+                    */
                 )
         }
-    }
-    
-    private func onDragChanged(_ value: DragGesture.Value, geometry: GeometryProxy) {
-        state.horizontalDragChanged(value, viewCount: pageCount, pageWidth: geometry.size.width)
-    }
-    
-    private func onDragEnded(_ value: DragGesture.Value, geometry: GeometryProxy) {
-        state.horizontalDragEnded(value, viewCount: pageCount, pageWidth: geometry.size.width)
     }
 }
 
@@ -62,15 +72,21 @@ public struct VPageView<Pages>: View where Pages: View {
     public let pages: PageContainer<Pages>
     public let pageCount: Int
     public let pageControlAlignment: Alignment
+    @GestureState var stateTransaction: PageScrollState.TransactionInfo
     
-    public init(theme: PageControlTheme = .default, @PageViewBuilder builder: () -> PageContainer<Pages>) {
-        self.state = PageScrollState()
+    public init(
+        selectedPage: Binding<Int>,
+        theme: PageControlTheme = .default,
+        @PageViewBuilder builder: () -> PageContainer<Pages>
+    ) {
+        self.state = PageScrollState(selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
         self.pageCount = pages.count
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
+        self._stateTransaction = state.verticalGestureState(pageCount: pages.count)
     }
     
     public var body: some View {
@@ -90,18 +106,21 @@ public struct VPageView<Pages>: View where Pages: View {
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
                 .highPriorityGesture(DragGesture(minimumDistance: 8.0)
-                    .onChanged({ self.onDragChanged($0, geometry: geometry) })
-                    .onEnded({ self.onDragEnded($0, geometry: geometry) })
+                    .updating(self.$stateTransaction, body: { value, state, _ in
+                        state.dragValue = value
+                        state.geometryProxy = geometry
+                    })
+                    .onChanged({
+                        let height = geometry.size.height
+                        let pageCount = self.pageCount
+                        self.state.verticalDragChanged($0, viewCount: pageCount, pageHeight: height)
+                    })
+                    /*
+                     There is a bug, where onEnded is not called, when gesture is cancelled.
+                     So onEnded is handled using reset handler in `GestureState`. (look `PageScrollState`)
+                    */
                 )
         }
-    }
-    
-    private func onDragChanged(_ value: DragGesture.Value, geometry: GeometryProxy) {
-        state.verticalDragChanged(value, viewCount: pageCount, pageHeight: geometry.size.height)
-    }
-    
-    private func onDragEnded(_ value: DragGesture.Value, geometry: GeometryProxy) {
-        state.verticalDragEnded(value, viewCount: pageCount, pageHeight: geometry.size.height)
     }
 }
 
@@ -117,7 +136,7 @@ struct PageView_Previews: PreviewProvider {
                 .font(.system(size: 24))
                 .fontWeight(.bold)
         }
-        
+
         let v2 = VStack {
             Image(systemName: "heart").resizable()
                 .scaledToFit()
@@ -128,12 +147,19 @@ struct PageView_Previews: PreviewProvider {
                 .fontWeight(.bold)
                 .foregroundColor(.gray)
         }
-        
+
         var theme = PageControlTheme.default
         theme.alignment = Alignment(horizontal: .center, vertical: .bottom)
         theme.yOffset = -14
+
+        var pageIndex = 0
+        let pageBinding = Binding(get: {
+            return pageIndex
+        }, set: { i in
+            pageIndex = i
+        })
         
-        return HPageView(theme: theme) {
+        return HPageView(selectedPage: pageBinding, theme: theme) {
             v1
             v2
         }

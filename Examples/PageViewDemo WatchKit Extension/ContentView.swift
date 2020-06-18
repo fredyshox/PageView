@@ -10,24 +10,26 @@ import SwiftUI
 //import PageView
 
 struct ContentView: View {
+    @State var selectedPage: Int = 0
+    
     var body: some View {
         // Horizontal
-        HPageView {
-            CustomButtonView()
-            CustomButtonView()
-            CustomButtonView()
-            CustomView()
-            CustomListView()
-            CustomView()
+        HPageView(selectedPage: $selectedPage) {
+            CustomButtonView(pageIndex: 0)
+            CustomButtonView(pageIndex: 1)
+            CustomButtonView(pageIndex: 2)
+            CustomView(pageIndex: 3)
+            CustomListView(pageIndex: 4)
+            CustomView(pageIndex: 5)
         }.edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
         // Vertical
-//        VPageView {
-//            CustomButtonView()
-//            CustomButtonView()
-//            CustomButtonView()
-//            CustomView()
-//            CustomView()
-//            CustomView()
+//        VPageView(selectedPage: $selectedPage) {
+//            CustomButtonView(pageIndex: 0)
+//            CustomButtonView(pageIndex: 1)
+//            CustomButtonView(pageIndex: 2)
+//            CustomView(pageIndex: 3)
+//            CustomView(pageIndex: 4)
+//            CustomView(pageIndex: 5)
 //        }.edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
     }
 }
