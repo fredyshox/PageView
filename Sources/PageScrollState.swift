@@ -8,18 +8,35 @@
 import SwiftUI
 
 class PageScrollState: ObservableObject {
-    @Published var selectedPage: Int = 0
-    @Published var contentOffset: CGFloat = 0.0
+    
+    // MARK: Types
+    
+    struct TransactionInfo {
+        var dragValue: DragGesture.Value!
+        var geometryProxy: GeometryProxy!
+    }
+    
+    // MARK: Properties
+    
+    let switchThreshold: CGFloat
+    @Binding var selectedPage: Int
+    @Published var pageOffset: CGFloat = 0.0
     @Published var isGestureActive: Bool = false
-    var scrollOffset: CGFloat = 0.0
+    
+    init(switchThreshold: CGFloat, selectedPageBinding: Binding<Int>) {
+        self.switchThreshold = switchThreshold
+        self._selectedPage = selectedPageBinding
+    }
+    
+    // MARK: DragGesture callbacks
     
     func horizontalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
         isGestureActive = true
         let delta = value.translation.width
         if (delta > 0 && selectedPage == 0) || (delta < 0 && selectedPage == viewCount - 1) {
-            contentOffset = scrollOffset + delta / 3.0
+            pageOffset = delta / 3.0
         } else {
-            contentOffset = scrollOffset + delta
+            pageOffset = delta
         }
     }
     
@@ -31,9 +48,9 @@ class PageScrollState: ObservableObject {
         isGestureActive = true
         let delta = value.translation.height
         if (delta > 0 && selectedPage == 0) || (delta < 0 && selectedPage == viewCount - 1) {
-            contentOffset = scrollOffset + delta / 3.0
+            pageOffset = delta / 3.0
         } else {
-            contentOffset = scrollOffset + delta
+            pageOffset = delta
         }
     }
     
@@ -42,31 +59,38 @@ class PageScrollState: ObservableObject {
     }
     
     private func dragEnded(_ value: DragGesture.Value, viewCount: Int, dimension: CGFloat) {
-        var newOffset = contentOffset
         var newPage = selectedPage
-        if contentOffset > 0 {
-             newOffset = 0
-        } else if contentOffset < -(dimension * CGFloat(viewCount - 1)) {
-             newOffset = -(dimension * CGFloat(viewCount - 1))
-        } else {
-            let pageOffset = abs(contentOffset) - CGFloat(selectedPage) * dimension
-            if pageOffset > 0.5*dimension {
-                newPage += 1
-            } else if pageOffset < -0.5*dimension {
-                newPage -= 1
-            }
-             
-            newOffset = -CGFloat(newPage) * dimension
+        if pageOffset > switchThreshold*dimension && selectedPage != 0 {
+            newPage -= 1
+        } else if pageOffset < -switchThreshold*dimension && selectedPage != viewCount - 1 {
+            newPage += 1
         }
         
         withAnimation(.easeInOut(duration: 0.2)) {
-            self.contentOffset = newOffset
+            self.pageOffset = 0.0
             self.selectedPage = newPage
-            self.scrollOffset = self.contentOffset
         }
         
         DispatchQueue.main.async {
             self.isGestureActive = false
+        }
+    }
+    
+    // MARK: Gesture States
+    
+    func horizontalGestureState(pageCount: Int) -> GestureState<TransactionInfo> {
+        return GestureState(initialValue: TransactionInfo()) { [weak self] (info, _) in
+            let width = info.geometryProxy.size.width
+            let dragValue = info.dragValue!
+            self?.horizontalDragEnded(dragValue, viewCount: pageCount, pageWidth: width)
+        }
+    }
+    
+    func verticalGestureState(pageCount: Int) -> GestureState<TransactionInfo> {
+        return GestureState(initialValue: TransactionInfo()) { [weak self] (info, _) in
+            let height = info.geometryProxy.size.height
+            let dragValue = info.dragValue!
+            self?.verticalDragEnded(dragValue, viewCount: pageCount, pageHeight: height)
         }
     }
 }

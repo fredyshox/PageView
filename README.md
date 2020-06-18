@@ -18,7 +18,7 @@ Package requires iOS 13, watchOS 6 and Xcode 11.
 
 For Swift Package Manager add the following package to your Package.swift:
 ```swift
-.package(url: "https://github.com/fredyshox/PageView.git", .upToNextMajor(from: "1.3.3")),
+.package(url: "https://github.com/fredyshox/PageView.git", .upToNextMajor(from: "1.4.0")),
 ```
 
 ### Carthage
@@ -26,7 +26,7 @@ For Swift Package Manager add the following package to your Package.swift:
 
 Carthage is also supported, add FormView by adding to Cartfile:
 ```
-github "fredyshox/PageView" ~> 1.3.3
+github "fredyshox/PageView" ~> 1.4.0
 ```
 
 ## Demo
@@ -39,27 +39,51 @@ Demo app for both iOS and watchOS is provided in `Examples/` directory.
 import PageView
 ```
 
-PageView component is available as `HPageView` or `VPageView` depending on scroll direction (horizontal and vertical, respectively).
-To add paged view with 3 pages use following code:
+PageView component is available as `HPageView` or `VPageView` depending on scroll direction (horizontal and vertical, respectively). To add paged view with 3 pages use following code:
+
 ```swift
+@State var pageIndex = 0
+
+...
+
 // horizontal axis
-HPageView {
+HPageView(selectedPage: $pageIndex) {
     SomeCustomView()
     AnotherCustomView()
     AnotherCustomView()
 }
 
 // vertical axis
-VPageView {
+VPageView(selectedPage: $pageIndex) {
     SomeCustomView()
     AnotherCustomView()
     AnotherCustomView()
 }
 ```
 
-By default PageView fills all the available area, you can constrain it's size using `.frame(width:, height:)` View modifier.
+By default PageView fills all the available area, you can constrain it's size using `.frame(width:, height:)` view modifier.
 
-You can customize the styling of page control component by passing `PageControlTheme`. Customizable properties:
+### Selected page binding
+
+Displayed page can be programmatically controled using `Binding`. For example, you can change it, with animation effect using: 
+
+```swift
+withAnimation {
+  // page index is some State property, which binding was passes into PageView
+  self.pageIndex = 2
+}
+```
+
+### Page switch threshold
+
+You can also control minimum distance that needs to be scrolled to switch page, expressed in fraction of page dimension (width or height, depending on axis). This parameter is called `pageSwitchThreshold`, and must be in range from 0.0 to 1.0.
+
+For iOS the default value is set to `0.3`, while on watchOS `0.5`.
+
+### Theme
+
+Styling of page control component can be customized by passing `PageControlTheme`. Customizable properties:
+
 * `backgroundColor`
 * `dotActiveColor`: active page dot color
 * `dotInactiveColor`: inactive page dot color
@@ -89,6 +113,44 @@ VPageView(theme: theme) {
 ```
 
 There is also a built-in `PageControlTheme.default` style, mimicking `UIPageControl` appearance.
+
+## API
+
+```swift
+// Horizontal page view
+public struct HPageView<Pages>: View where Pages: View {
+    public init(
+        selectedPage: Binding<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        @PageViewBuilder builder: () -> PageContainer<Pages>
+    )
+}
+
+// Vertical page view
+public struct VPageView<Pages>: View where Pages: View {
+    public init(
+        selectedPage: Binding<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        @PageViewBuilder builder: () -> PageContainer<Pages>
+    )
+}
+
+public struct PageControlTheme {
+    public var backgroundColor: Color
+    public var dotActiveColor: Color
+    public var dotInactiveColor: Color
+    public var dotSize: CGFloat
+    public var spacing: CGFloat
+    public var padding: CGFloat
+    public var xOffset: CGFloat
+    public var yOffset: CGFloat
+    public var alignment: Alignment?
+}
+```
+
+
 
 ## Screenshots
 

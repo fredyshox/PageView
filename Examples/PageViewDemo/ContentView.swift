@@ -10,12 +10,21 @@ import SwiftUI
 //import PageView
 
 struct ContentView: View {
+    @State var selectedPage = 2
+    
     var body: some View {
-        HPageView {
-            CustomView()
-            CustomListView()
-            CustomView()
+        // horizontal
+        HPageView(selectedPage: $selectedPage) {
+            CustomView(pageIndex: 0)
+            CustomListView(pageIndex: 1)
+            CustomView(pageIndex: 2)
         }
+        // vertical
+//        VPageView(selectedPage: $selectedPage) {
+//            CustomView(pageIndex: 0)
+//            CustomView(pageIndex: 1)
+//            CustomView(pageIndex: 2)
+//        }
     }
 }
 
