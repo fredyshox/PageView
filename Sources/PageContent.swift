@@ -92,7 +92,7 @@ struct PageContent<Stack, Control>: View where Stack: View, Control: View {
     
     private func horizontalOffset(using geometry: GeometryProxy) -> CGFloat {
         if state.isGestureActive {
-            return baseOffset + state.contentOffset
+            return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.width + state.pageOffset
         } else {
             return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.width
         }
@@ -100,7 +100,7 @@ struct PageContent<Stack, Control>: View where Stack: View, Control: View {
     
     private func verticalOffset(using geometry: GeometryProxy) -> CGFloat {
         if state.isGestureActive {
-            return baseOffset + state.contentOffset
+            return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.height + state.pageOffset
         } else {
             return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.height
         }
