@@ -2,7 +2,7 @@
 
 SwiftUI view enabling page-based navigation, imitating the behaviour of `UIPageViewController` in iOS.
 
-![watchOS screenshow](./Images/watchOS-example.png)
+![watchOS screenshow](./Images/PageViews_watchOS.png)
 
 ## Why
 
@@ -154,4 +154,9 @@ public struct PageControlTheme {
 
 ## Screenshots
 
-![iOS example](./Images/iOS-example.png)
+![iOS example](./Images/PageView_iOS.png)
+
+![HPageView on watchOS](./Images/HPageView_watchOS.gif)
+
+![VPageView on watchOS](./Images/VPageView_watchOS.gif)
+
