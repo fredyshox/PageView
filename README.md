@@ -18,7 +18,7 @@ Package requires iOS 13, watchOS 6 and Xcode 11.
 
 For Swift Package Manager add the following package to your Package.swift:
 ```swift
-.package(url: "https://github.com/fredyshox/PageView.git", .upToNextMajor(from: "1.4.0")),
+.package(url: "https://github.com/fredyshox/PageView.git", .upToNextMajor(from: "1.4.1")),
 ```
 
 ### Carthage
@@ -26,7 +26,7 @@ For Swift Package Manager add the following package to your Package.swift:
 
 Carthage is also supported, add FormView by adding to Cartfile:
 ```
-github "fredyshox/PageView" ~> 1.4.0
+github "fredyshox/PageView" ~> 1.4.1
 ```
 
 ## Demo
