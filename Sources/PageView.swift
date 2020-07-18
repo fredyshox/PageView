@@ -49,7 +49,7 @@ public struct HPageView<Pages>: View where Pages: View {
                         compositeView: HorizontalPageStack(pages: self.pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                .highPriorityGesture(DragGesture(minimumDistance: 8.0)
+                .simultaneousGesture(DragGesture(minimumDistance: 8.0)
                     .updating(self.$stateTransaction, body: { value, state, _ in
                         state.dragValue = value
                         state.geometryProxy = geometry
@@ -110,7 +110,7 @@ public struct VPageView<Pages>: View where Pages: View {
                         compositeView: VerticalPageStack(pages: self.pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                .highPriorityGesture(DragGesture(minimumDistance: 8.0)
+                .simultaneousGesture(DragGesture(minimumDistance: 8.0)
                     .updating(self.$stateTransaction, body: { value, state, _ in
                         state.dragValue = value
                         state.geometryProxy = geometry
