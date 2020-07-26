@@ -24,7 +24,7 @@ For Swift Package Manager add the following package to your Package.swift:
 ### Carthage
 
 
-Carthage is also supported, add FormView by adding to Cartfile:
+Carthage is also supported, add following line to Cartfile:
 ```
 github "fredyshox/PageView" ~> 1.4.1
 ```
