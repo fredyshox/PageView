@@ -20,23 +20,30 @@ class PageScrollState: ObservableObject {
     
     let switchThreshold: CGFloat
     let edgeSwipeThreshold: CGFloat
+    let edgeSwipingAllowed: Bool
+
     @Binding var selectedPage: Int
     @Published var pageOffset: CGFloat = 0.0
     @Published var isGestureActive: Bool = false
     
-    init(switchThreshold: CGFloat, edgeSwipeThreshold: CGFloat, selectedPageBinding: Binding<Int>) {
+    init(switchThreshold: CGFloat, edgeSwipeThreshold: CGFloat, edgeSwipingAllowed: Bool, selectedPageBinding: Binding<Int>) {
         self.switchThreshold = switchThreshold
         self.edgeSwipeThreshold = edgeSwipeThreshold
+        self.edgeSwipingAllowed = edgeSwipingAllowed
         self._selectedPage = selectedPageBinding
     }
 
     func willAcceptHorizontalDrag(_ value: DragGesture.Value, pageWidth: CGFloat) -> Bool {
+        guard edgeSwipingAllowed else { return false }
+
         let allowedRange = pageWidth * edgeSwipeThreshold
 
         return (0 ... allowedRange).contains(value.startLocation.x) || (pageWidth - allowedRange ... pageWidth).contains(value.startLocation.x)
     }
 
     func willAcceptVerticalDrag(_ value: DragGesture.Value, pageHeight: CGFloat) -> Bool {
+        guard edgeSwipingAllowed else { return false }
+
         let allowedRange = pageHeight * edgeSwipeThreshold
 
         return (0 ... allowedRange).contains(value.startLocation.y) || (pageHeight - allowedRange ... pageHeight).contains(value.startLocation.y)

@@ -19,12 +19,13 @@ public struct HPageView<Pages>: View where Pages: View {
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
         edgeSwipeThreshold: CGFloat = .defaultEdgeSwipeThreshold,
+        edgeSwipingAllowed: Bool = true,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, selectedPageBinding: selectedPage)
+        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, edgeSwipingAllowed: edgeSwipingAllowed, selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -59,7 +60,8 @@ public struct HPageView<Pages>: View where Pages: View {
                         let width = geometry.size.width
                         let pageCount = self.pageCount
                         self.state.horizontalDragChanged($0, viewCount: pageCount, pageWidth: width)
-                    })
+                    }),
+                     enabled: state.edgeSwipingAllowed
                     /*
                      There is a bug, where onEnded is not called, when gesture is cancelled.
                      So onEnded is handled using reset handler in `GestureState` (look `PageScrollState`)
@@ -81,12 +83,13 @@ public struct VPageView<Pages>: View where Pages: View {
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
         edgeSwipeThreshold: CGFloat = .defaultEdgeSwipeThreshold,
+        edgeSwipingAllowed: Bool = true,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, selectedPageBinding: selectedPage)
+        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, edgeSwipingAllowed: edgeSwipingAllowed, selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -121,7 +124,8 @@ public struct VPageView<Pages>: View where Pages: View {
                         let height = geometry.size.height
                         let pageCount = self.pageCount
                         self.state.verticalDragChanged($0, viewCount: pageCount, pageHeight: height)
-                    })
+                    }),
+                     enabled: state.edgeSwipingAllowed
                     /*
                      There is a bug, where onEnded is not called, when gesture is cancelled.
                      So onEnded is handled using reset handler in `GestureState`. (look `PageScrollState`)
@@ -189,3 +193,16 @@ struct PageView_Previews: PreviewProvider {
     }
 }
 #endif
+
+extension View {
+    func simultaneousGesture<T>(_ gesture: T, including mask: GestureMask = .all, enabled: Bool) -> some View where T : Gesture {
+        Group {
+            if enabled {
+                self
+                    .simultaneousGesture(gesture, including: mask)
+            } else {
+                self
+            }
+        }
+    }
+}
