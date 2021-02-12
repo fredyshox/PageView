@@ -18,12 +18,13 @@ public struct HPageView<Pages>: View where Pages: View {
     public init(
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        edgeSwipeThreshold: CGFloat = .defaultEdgeSwipeThreshold,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -79,12 +80,13 @@ public struct VPageView<Pages>: View where Pages: View {
     public init(
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        edgeSwipeThreshold: CGFloat = .defaultEdgeSwipeThreshold,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -138,6 +140,10 @@ extension CGFloat {
         #else
         return 0.5
         #endif
+    }
+
+    public static var defaultEdgeSwipeThreshold: CGFloat {
+        0.1
     }
 }
 

@@ -19,18 +19,34 @@ class PageScrollState: ObservableObject {
     // MARK: Properties
     
     let switchThreshold: CGFloat
+    let edgeSwipeThreshold: CGFloat
     @Binding var selectedPage: Int
     @Published var pageOffset: CGFloat = 0.0
     @Published var isGestureActive: Bool = false
     
-    init(switchThreshold: CGFloat, selectedPageBinding: Binding<Int>) {
+    init(switchThreshold: CGFloat, edgeSwipeThreshold: CGFloat, selectedPageBinding: Binding<Int>) {
         self.switchThreshold = switchThreshold
+        self.edgeSwipeThreshold = edgeSwipeThreshold
         self._selectedPage = selectedPageBinding
+    }
+
+    func willAcceptHorizontalDrag(_ value: DragGesture.Value, pageWidth: CGFloat) -> Bool {
+        let allowedRange = pageWidth * edgeSwipeThreshold
+
+        return (0 ... allowedRange).contains(value.startLocation.x) || (pageWidth - allowedRange ... pageWidth).contains(value.startLocation.x)
+    }
+
+    func willAcceptVerticalDrag(_ value: DragGesture.Value, pageHeight: CGFloat) -> Bool {
+        let allowedRange = pageHeight * edgeSwipeThreshold
+
+        return (0 ... allowedRange).contains(value.startLocation.y) || (pageHeight - allowedRange ... pageHeight).contains(value.startLocation.y)
     }
     
     // MARK: DragGesture callbacks
     
     func horizontalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
+        guard willAcceptHorizontalDrag(value, pageWidth: pageWidth) else { return }
+
         isGestureActive = true
         let delta = value.translation.width
         if (delta > 0 && selectedPage == 0) || (delta < 0 && selectedPage == viewCount - 1) {
@@ -41,10 +57,14 @@ class PageScrollState: ObservableObject {
     }
     
     func horizontalDragEnded(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
+        guard willAcceptHorizontalDrag(value, pageWidth: pageWidth) else { return }
+
         dragEnded(value, viewCount: viewCount, dimension: pageWidth)
     }
     
     func verticalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageHeight: CGFloat) {
+        guard willAcceptVerticalDrag(value, pageHeight: pageHeight) else { return }
+
         isGestureActive = true
         let delta = value.translation.height
         if (delta > 0 && selectedPage == 0) || (delta < 0 && selectedPage == viewCount - 1) {
@@ -55,6 +75,8 @@ class PageScrollState: ObservableObject {
     }
     
     func verticalDragEnded(_ value: DragGesture.Value, viewCount: Int, pageHeight: CGFloat) {
+        guard willAcceptVerticalDrag(value, pageHeight: pageHeight) else { return }
+
         dragEnded(value, viewCount: viewCount, dimension: pageHeight)
     }
     
