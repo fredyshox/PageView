@@ -7,8 +7,11 @@
 
 import SwiftUI
 
+public enum PageGestureType {
+    case disabled, standard, simultaneous, highPriority
+}
+
 class PageScrollState: ObservableObject {
-    
     // MARK: Types
     
     struct TransactionInfo {
@@ -20,21 +23,21 @@ class PageScrollState: ObservableObject {
     
     let switchThreshold: CGFloat
     let edgeSwipeThreshold: CGFloat
-    let pageSwitchingAllowed: Bool
+    let pageGestureType: PageGestureType
 
     @Binding var selectedPage: Int
     @Published var pageOffset: CGFloat = 0.0
     @Published var isGestureActive: Bool = false
     
-    init(switchThreshold: CGFloat, edgeSwipeThreshold: CGFloat, pageSwitchingAllowed: Bool, selectedPageBinding: Binding<Int>) {
+    init(switchThreshold: CGFloat, edgeSwipeThreshold: CGFloat, pageGestureType: PageGestureType, selectedPageBinding: Binding<Int>) {
         self.switchThreshold = switchThreshold
         self.edgeSwipeThreshold = edgeSwipeThreshold
-        self.pageSwitchingAllowed = pageSwitchingAllowed
+        self.pageGestureType = pageGestureType
         self._selectedPage = selectedPageBinding
     }
 
     func willAcceptHorizontalDrag(_ value: DragGesture.Value, pageWidth: CGFloat) -> Bool {
-        guard pageSwitchingAllowed else { return false }
+        guard pageGestureType != .disabled else { return false }
 
         let allowedRange = pageWidth * edgeSwipeThreshold
 
@@ -42,7 +45,7 @@ class PageScrollState: ObservableObject {
     }
 
     func willAcceptVerticalDrag(_ value: DragGesture.Value, pageHeight: CGFloat) -> Bool {
-        guard pageSwitchingAllowed else { return false }
+        guard pageGestureType != .disabled else { return false }
 
         let allowedRange = pageHeight * edgeSwipeThreshold
 

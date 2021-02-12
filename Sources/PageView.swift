@@ -19,13 +19,13 @@ public struct HPageView<Pages>: View where Pages: View {
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
         edgeSwipeThreshold: CGFloat = .defaultEdgeSwipeThreshold,
-        pageSwitchingAllowed: Bool = true,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, pageSwitchingAllowed: pageSwitchingAllowed, selectedPageBinding: selectedPage)
+        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, pageGestureType: pageGestureType, selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -51,7 +51,7 @@ public struct HPageView<Pages>: View where Pages: View {
                         compositeView: HorizontalPageStack(pages: self.pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                .simultaneousGesture(DragGesture(minimumDistance: 8.0)
+                .gesture(DragGesture(minimumDistance: 8.0)
                     .updating(self.$stateTransaction, body: { value, state, _ in
                         state.dragValue = value
                         state.geometryProxy = geometry
@@ -61,7 +61,7 @@ public struct HPageView<Pages>: View where Pages: View {
                         let pageCount = self.pageCount
                         self.state.horizontalDragChanged($0, viewCount: pageCount, pageWidth: width)
                     }),
-                     enabled: state.pageSwitchingAllowed
+                     type: state.pageGestureType
                     /*
                      There is a bug, where onEnded is not called, when gesture is cancelled.
                      So onEnded is handled using reset handler in `GestureState` (look `PageScrollState`)
@@ -83,13 +83,13 @@ public struct VPageView<Pages>: View where Pages: View {
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
         edgeSwipeThreshold: CGFloat = .defaultEdgeSwipeThreshold,
-        pageSwitchingAllowed: Bool = true,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, pageSwitchingAllowed: pageSwitchingAllowed, selectedPageBinding: selectedPage)
+        self.state = PageScrollState(switchThreshold: threshold, edgeSwipeThreshold: edgeSwipeThreshold, pageGestureType: pageGestureType, selectedPageBinding: selectedPage)
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -115,7 +115,7 @@ public struct VPageView<Pages>: View where Pages: View {
                         compositeView: VerticalPageStack(pages: self.pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                .simultaneousGesture(DragGesture(minimumDistance: 8.0)
+                .gesture(DragGesture(minimumDistance: 8.0)
                     .updating(self.$stateTransaction, body: { value, state, _ in
                         state.dragValue = value
                         state.geometryProxy = geometry
@@ -125,12 +125,31 @@ public struct VPageView<Pages>: View where Pages: View {
                         let pageCount = self.pageCount
                         self.state.verticalDragChanged($0, viewCount: pageCount, pageHeight: height)
                     }),
-                     enabled: state.pageSwitchingAllowed
+                     type: state.pageGestureType
                     /*
                      There is a bug, where onEnded is not called, when gesture is cancelled.
                      So onEnded is handled using reset handler in `GestureState`. (look `PageScrollState`)
                     */
                 )
+        }
+    }
+}
+
+extension View {
+    func gesture<T>(_ gesture: T, including mask: GestureMask = .all, type: PageGestureType) -> some View where T : Gesture {
+        Group {
+            if type == .standard {
+                self
+                    .gesture(gesture, including: mask)
+            } else if type == .simultaneous {
+                self
+                    .simultaneousGesture(gesture, including: mask)
+            } else if type == .highPriority {
+                self
+                    .highPriorityGesture(gesture, including: mask)
+            } else {
+                self
+            }
         }
     }
 }
@@ -193,16 +212,3 @@ struct PageView_Previews: PreviewProvider {
     }
 }
 #endif
-
-extension View {
-    func simultaneousGesture<T>(_ gesture: T, including mask: GestureMask = .all, enabled: Bool) -> some View where T : Gesture {
-        Group {
-            if enabled {
-                self
-                    .simultaneousGesture(gesture, including: mask)
-            } else {
-                self
-            }
-        }
-    }
-}
