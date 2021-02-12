@@ -143,7 +143,7 @@ extension CGFloat {
     }
 
     public static var defaultEdgeSwipeThreshold: CGFloat {
-        0.1
+        0.5
     }
 }
 
