@@ -16,6 +16,7 @@ public struct PageControlTheme {
     public var padding: CGFloat
     public var xOffset: CGFloat
     public var yOffset: CGFloat
+    public var opacity: Double
     public var alignment: Alignment?
     
     public init(
@@ -27,6 +28,7 @@ public struct PageControlTheme {
         padding: CGFloat,
         xOffset: CGFloat,
         yOffset: CGFloat,
+        opacity: Double = 1.0,
         alignment: Alignment? = nil
     ) {
         self.backgroundColor = backgroundColor
@@ -37,8 +39,20 @@ public struct PageControlTheme {
         self.padding = padding
         self.xOffset = xOffset
         self.yOffset = yOffset
+        self.opacity = opacity
         self.alignment = alignment
     }
+
+    public static let invisible: PageControlTheme = PageControlTheme(backgroundColor: .clear,
+                                                                     dotActiveColor: .clear,
+                                                                     dotInactiveColor: .clear,
+                                                                     dotSize: .zero,
+                                                                     spacing: .zero,
+                                                                     padding: .zero,
+                                                                     xOffset: .zero,
+                                                                     yOffset: .zero,
+                                                                     opacity: .zero,
+                                                                     alignment: nil)
     
     public static var `default`: PageControlTheme {
         #if os(iOS)
