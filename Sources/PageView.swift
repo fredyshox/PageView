@@ -182,25 +182,6 @@ extension View {
     }
 }
 
-extension View {
-    func gesture<T>(_ gesture: T, including mask: GestureMask = .all, type: PageGestureType) -> some View where T : Gesture {
-        Group {
-            if type == .standard {
-                self
-                    .gesture(gesture, including: mask)
-            } else if type == .simultaneous {
-                self
-                    .simultaneousGesture(gesture, including: mask)
-            } else if type == .highPriority {
-                self
-                    .highPriorityGesture(gesture, including: mask)
-            } else {
-                self
-            }
-        }
-    }
-}
-
 extension CGFloat {
     public static var defaultSwitchThreshold: CGFloat {
         #if os(iOS)

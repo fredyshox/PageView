@@ -31,22 +31,6 @@ class PageScrollState: ObservableObject {
 
         return (0 ... allowedRange).contains(value.startLocation.y) || (pageHeight - allowedRange ... pageHeight).contains(value.startLocation.y)
     }
-
-    func willAcceptHorizontalDrag(_ value: DragGesture.Value, pageWidth: CGFloat) -> Bool {
-        guard pageGestureType != .disabled else { return false }
-
-        let allowedRange = pageWidth * edgeSwipeThreshold
-
-        return (0 ... allowedRange).contains(value.startLocation.x) || (pageWidth - allowedRange ... pageWidth).contains(value.startLocation.x)
-    }
-
-    func willAcceptVerticalDrag(_ value: DragGesture.Value, pageHeight: CGFloat) -> Bool {
-        guard pageGestureType != .disabled else { return false }
-
-        let allowedRange = pageHeight * edgeSwipeThreshold
-
-        return (0 ... allowedRange).contains(value.startLocation.y) || (pageHeight - allowedRange ... pageHeight).contains(value.startLocation.y)
-    }
     
     // MARK: DragGesture callbacks
     
