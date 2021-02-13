@@ -7,7 +7,7 @@ let package = Package(
     name: "PageView",
     platforms: [
         .iOS(.v14),
-        .watchOS(.v6)
+        .watchOS(.v7)
     ],
     products: [
         .library(name: "PageView", targets: ["PageView"]),
