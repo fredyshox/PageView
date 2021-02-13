@@ -42,6 +42,7 @@ struct VerticalPageStack<Pages>: View where Pages: View {
 }
 
 struct PageContent<Stack, Control>: View where Stack: View, Control: View {
+    @Binding var selectedPage: Int
     @ObservedObject var state: PageScrollState
     let compositeView: Stack
     let childCount: Int
@@ -51,7 +52,8 @@ struct PageContent<Stack, Control>: View where Stack: View, Control: View {
     let geometry: GeometryProxy
     private let baseOffset: CGFloat
     
-    init(state: PageScrollState, axis: Axis, alignment: Alignment, geometry: GeometryProxy, childCount: Int, compositeView: Stack, pageControlBuilder: @escaping (Int, Binding<Int>) -> Control) {
+    init(selectedPage: Binding<Int>, state: PageScrollState, axis: Axis, alignment: Alignment, geometry: GeometryProxy, childCount: Int, compositeView: Stack, pageControlBuilder: @escaping (Int, Binding<Int>) -> Control) {
+        self._selectedPage = selectedPage
         self.state = state
         self.compositeView = compositeView
         self.childCount = childCount
@@ -67,7 +69,7 @@ struct PageContent<Stack, Control>: View where Stack: View, Control: View {
     }
     
     var body: some View {
-        let pageControl = pageControlBuilder(childCount, $state.selectedPage)
+        let pageControl = pageControlBuilder(childCount, $selectedPage)
         
         return ZStack(alignment: .center) {
             compositeView
@@ -92,17 +94,17 @@ struct PageContent<Stack, Control>: View where Stack: View, Control: View {
     
     private func horizontalOffset(using geometry: GeometryProxy) -> CGFloat {
         if state.isGestureActive {
-            return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.width + state.pageOffset
+            return baseOffset + -1 * CGFloat(selectedPage) * geometry.size.width + state.pageOffset
         } else {
-            return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.width
+            return baseOffset + -1 * CGFloat(selectedPage) * geometry.size.width
         }
     }
     
     private func verticalOffset(using geometry: GeometryProxy) -> CGFloat {
         if state.isGestureActive {
-            return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.height + state.pageOffset
+            return baseOffset + -1 * CGFloat(selectedPage) * geometry.size.height + state.pageOffset
         } else {
-            return baseOffset + -1 * CGFloat(state.selectedPage) * geometry.size.height
+            return baseOffset + -1 * CGFloat(selectedPage) * geometry.size.height
         }
     }
 }
