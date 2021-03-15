@@ -27,8 +27,17 @@ public struct PageViewSettings {
     public static let `default` = Self()
 }
 
+struct DragGestureTransactionInfo {
+    var state: PageScrollState!
+    var dragValue: DragGesture.Value!
+    var width: CGFloat!
+    var height: CGFloat!
+}
+
 public struct HPageView<Pages>: View where Pages: View {
     @StateObject private var state = PageScrollState()
+    @GestureState private var stateTransaction: DragGestureTransactionInfo
+
     @Binding var selectedPage: Int
 
     public let settings: PageViewSettings
@@ -48,9 +57,20 @@ public struct HPageView<Pages>: View where Pages: View {
         self.theme = theme
         let pages = builder()
         self.pages = pages
-        self.pageCount = pages.count
+
+        let pageCount = pages.count
+
+        self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
+
+        _stateTransaction = .init(initialValue: .init(), reset: { info, _ in
+            info.state.horizontalDragEnded(info.dragValue,
+                                           viewCount: pageCount,
+                                           pageWidth: info.width,
+                                           settings: settings,
+                                           selectedPage: selectedPage)
+        })
     }
 
     public var body: some View {
@@ -78,25 +98,32 @@ public struct HPageView<Pages>: View where Pages: View {
 
     func gesture(geometry: GeometryProxy) -> some Gesture {
         DragGesture(minimumDistance: 8.0)
-                    .onChanged {
-                        state.horizontalDragChanged($0,
-                                                    viewCount: pageCount,
-                                                    pageWidth: geometry.size.width,
-                                                    settings: settings,
-                                                    selectedPage: selectedPage)
-                    }
-                    .onEnded {
-                        state.horizontalDragEnded($0,
-                                                  viewCount: pageCount,
-                                                  pageWidth: geometry.size.width,
-                                                  settings: settings,
-                                                  selectedPage: $selectedPage)
-                    }
+            .updating($stateTransaction) { value, gestureState, _ in
+                gestureState.state = state
+                gestureState.dragValue = value
+                gestureState.width = geometry.size.width
+            }
+            .onChanged {
+                state.horizontalDragChanged($0,
+                                            viewCount: pageCount,
+                                            pageWidth: geometry.size.width,
+                                            settings: settings,
+                                            selectedPage: selectedPage)
+            }
+            .onEnded {
+                state.horizontalDragEnded($0,
+                                          viewCount: pageCount,
+                                          pageWidth: geometry.size.width,
+                                          settings: settings,
+                                          selectedPage: $selectedPage)
+            }
     }
 }
 
 public struct VPageView<Pages>: View where Pages: View {
     @StateObject private var state = PageScrollState()
+    @GestureState private var stateTransaction: DragGestureTransactionInfo
+
     @Binding var selectedPage: Int
 
     public let settings: PageViewSettings
@@ -116,9 +143,19 @@ public struct VPageView<Pages>: View where Pages: View {
         self.theme = theme
         let pages = builder()
         self.pages = pages
-        self.pageCount = pages.count
+
+        let pageCount = pages.count
+        self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
+
+        _stateTransaction = .init(initialValue: .init(), reset: { info, _ in
+            info.state.verticalDragEnded(info.dragValue,
+                                         viewCount: pageCount,
+                                         pageHeight: info.height,
+                                         settings: settings,
+                                         selectedPage: selectedPage)
+        })
     }
     
     public var body: some View {
@@ -146,20 +183,25 @@ public struct VPageView<Pages>: View where Pages: View {
 
     func gesture(geometry: GeometryProxy) -> some Gesture {
         DragGesture(minimumDistance: 8.0)
-                    .onChanged {
-                        state.verticalDragChanged($0,
-                                                  viewCount: pageCount,
-                                                  pageHeight: geometry.size.height,
-                                                  settings: settings,
-                                                  selectedPage: selectedPage)
-                    }
-                    .onEnded {
-                        state.verticalDragEnded($0,
-                                                viewCount: pageCount,
-                                                pageHeight: geometry.size.height,
-                                                settings: settings,
-                                                selectedPage: $selectedPage)
-                    }
+            .updating($stateTransaction) { value, gestureState, _ in
+                gestureState.state = state
+                gestureState.dragValue = value
+                gestureState.height = geometry.size.height
+            }
+            .onChanged {
+                state.verticalDragChanged($0,
+                                          viewCount: pageCount,
+                                          pageHeight: geometry.size.height,
+                                          settings: settings,
+                                          selectedPage: selectedPage)
+            }
+            .onEnded {
+                state.verticalDragEnded($0,
+                                        viewCount: pageCount,
+                                        pageHeight: geometry.size.height,
+                                        settings: settings,
+                                        selectedPage: $selectedPage)
+            }
     }
 }
 
