@@ -33,6 +33,25 @@ public struct HPageView<Pages>: View where Pages: View {
         self._stateTransaction = state.horizontalGestureState(pageCount: pages.count)
     }
     
+    public init(
+        selectedPage: Binding<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        pageCount: Int,
+        @PageViewBuilder builder: () -> PageContainer<Pages>
+    ) {
+        // prevent values outside of 0...1
+        let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
+        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        self.theme = theme
+        let pages = builder()
+        self.pages = pages
+        self.pageCount = pageCount
+        self.pageControlAlignment =
+            theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
+        self._stateTransaction = state.horizontalGestureState(pageCount: pageCount)
+    }
+    
     public var body: some View {
         let pageControlBuilder = { (childCount, selectedPageBinding) in
             return PageControl.DefaultHorizontal(pageCount: childCount,
