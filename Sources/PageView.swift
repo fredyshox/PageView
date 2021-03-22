@@ -7,124 +7,219 @@
 
 import SwiftUI
 
+public struct PageViewSettings {
+    public enum GestureType {
+        case standard, simultaneous, highPriority
+    }
+
+    public var switchThreshold: CGFloat = .defaultSwitchThreshold
+    public var dragEdgeThreshold: CGFloat = .defaultDragEdgeThreshold
+    public var pageGestureType: GestureType = .highPriority
+    public var dragEnabled: Bool = true
+
+    public init(switchThreshold: CGFloat = .defaultSwitchThreshold, dragEdgeThreshold: CGFloat = .defaultDragEdgeThreshold, pageGestureType: GestureType = .highPriority, dragEnabled: Bool = true) {
+        self.switchThreshold = switchThreshold
+        self.dragEdgeThreshold = dragEdgeThreshold
+        self.pageGestureType = pageGestureType
+        self.dragEnabled = dragEnabled
+    }
+
+    public static let `default` = Self()
+}
+
+struct DragGestureTransactionInfo {
+    var state: PageScrollState!
+    var dragValue: DragGesture.Value!
+    var width: CGFloat!
+    var height: CGFloat!
+}
+
 public struct HPageView<Pages>: View where Pages: View {
-    let state: PageScrollState
+    @StateObject private var state = PageScrollState()
+    @GestureState private var stateTransaction: DragGestureTransactionInfo
+
+    @Binding var selectedPage: Int
+
+    public let settings: PageViewSettings
     public let theme: PageControlTheme
     public let pages: PageContainer<Pages>
     public let pageCount: Int
     public let pageControlAlignment: Alignment
-    @GestureState var stateTransaction: PageScrollState.TransactionInfo
     
     public init(
         selectedPage: Binding<Int>,
-        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        settings: PageViewSettings = .default,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
-        // prevent values outside of 0...1
-        let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        self._selectedPage = selectedPage
+        self.settings = settings
         self.theme = theme
         let pages = builder()
         self.pages = pages
-        self.pageCount = pages.count
+
+        let pageCount = pages.count
+
+        self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
-        self._stateTransaction = state.horizontalGestureState(pageCount: pages.count)
+
+        _stateTransaction = .init(initialValue: .init(), reset: { info, _ in
+            info.state.horizontalDragEnded(info.dragValue,
+                                           viewCount: pageCount,
+                                           pageWidth: info.width,
+                                           settings: settings,
+                                           selectedPage: selectedPage)
+        })
     }
-    
+
     public var body: some View {
         let pageControlBuilder = { (childCount, selectedPageBinding) in
             return PageControl.DefaultHorizontal(pageCount: childCount,
                                                  selectedPage: selectedPageBinding,
-                                                 theme: self.theme)
+                                                 theme: theme)
         }
         
         return GeometryReader { geometry in
-            PageContent(state: self.state,
+            PageContent(selectedPage: $selectedPage,
+                        state: state,
                         axis: .horizontal,
-                        alignment: self.pageControlAlignment,
+                        alignment: pageControlAlignment,
                         geometry: geometry,
-                        childCount: self.pageCount,
-                        compositeView: HorizontalPageStack(pages: self.pages, geometry: geometry),
+                        childCount: pageCount,
+                        compositeView: HorizontalPageStack(pages: pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                .highPriorityGesture(DragGesture(minimumDistance: 8.0)
-                    .updating(self.$stateTransaction, body: { value, state, _ in
-                        state.dragValue = value
-                        state.geometryProxy = geometry
-                    })
-                    .onChanged({
-                        let width = geometry.size.width
-                        let pageCount = self.pageCount
-                        self.state.horizontalDragChanged($0, viewCount: pageCount, pageWidth: width)
-                    })
-                    /*
-                     There is a bug, where onEnded is not called, when gesture is cancelled.
-                     So onEnded is handled using reset handler in `GestureState` (look `PageScrollState`)
-                    */
-                )
+                .gesture(gesture(geometry: geometry),
+                         including: settings.dragEnabled ? .all : .subviews,
+                         type: settings.pageGestureType)
         }
+    }
+
+    func gesture(geometry: GeometryProxy) -> some Gesture {
+        DragGesture(minimumDistance: 8.0)
+            .updating($stateTransaction) { value, gestureState, _ in
+                gestureState.state = state
+                gestureState.dragValue = value
+                gestureState.width = geometry.size.width
+            }
+            .onChanged {
+                state.horizontalDragChanged($0,
+                                            viewCount: pageCount,
+                                            pageWidth: geometry.size.width,
+                                            settings: settings,
+                                            selectedPage: selectedPage)
+            }
+            .onEnded {
+                state.horizontalDragEnded($0,
+                                          viewCount: pageCount,
+                                          pageWidth: geometry.size.width,
+                                          settings: settings,
+                                          selectedPage: $selectedPage)
+            }
     }
 }
 
 public struct VPageView<Pages>: View where Pages: View {
-    let state: PageScrollState
+    @StateObject private var state = PageScrollState()
+    @GestureState private var stateTransaction: DragGestureTransactionInfo
+
+    @Binding var selectedPage: Int
+
+    public let settings: PageViewSettings
     public let theme: PageControlTheme
     public let pages: PageContainer<Pages>
     public let pageCount: Int
     public let pageControlAlignment: Alignment
-    @GestureState var stateTransaction: PageScrollState.TransactionInfo
     
     public init(
         selectedPage: Binding<Int>,
-        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        settings: PageViewSettings = .default,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
-        // prevent values outside of 0...1
-        let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        self.settings = settings
+        self._selectedPage = selectedPage
         self.theme = theme
         let pages = builder()
         self.pages = pages
-        self.pageCount = pages.count
+
+        let pageCount = pages.count
+        self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
-        self._stateTransaction = state.verticalGestureState(pageCount: pages.count)
+
+        _stateTransaction = .init(initialValue: .init(), reset: { info, _ in
+            info.state.verticalDragEnded(info.dragValue,
+                                         viewCount: pageCount,
+                                         pageHeight: info.height,
+                                         settings: settings,
+                                         selectedPage: selectedPage)
+        })
     }
     
     public var body: some View {
         let pageControlBuilder = { (childCount, selectedPageBinding) in
             return PageControl.DefaultVertical(pageCount: childCount,
                                                  selectedPage: selectedPageBinding,
-                                                 theme: self.theme)
+                                                 theme: theme)
         }
         
         return GeometryReader { geometry in
-            PageContent(state: self.state,
+            PageContent(selectedPage: $selectedPage,
+                        state: state,
                         axis: .vertical,
-                        alignment: self.pageControlAlignment,
+                        alignment: pageControlAlignment,
                         geometry: geometry,
-                        childCount: self.pageCount,
-                        compositeView: VerticalPageStack(pages: self.pages, geometry: geometry),
+                        childCount: pageCount,
+                        compositeView: VerticalPageStack(pages: pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                .highPriorityGesture(DragGesture(minimumDistance: 8.0)
-                    .updating(self.$stateTransaction, body: { value, state, _ in
-                        state.dragValue = value
-                        state.geometryProxy = geometry
-                    })
-                    .onChanged({
-                        let height = geometry.size.height
-                        let pageCount = self.pageCount
-                        self.state.verticalDragChanged($0, viewCount: pageCount, pageHeight: height)
-                    })
-                    /*
-                     There is a bug, where onEnded is not called, when gesture is cancelled.
-                     So onEnded is handled using reset handler in `GestureState`. (look `PageScrollState`)
-                    */
-                )
+                .gesture(gesture(geometry: geometry),
+                         including: settings.dragEnabled ? .all : .subviews,
+                         type: settings.pageGestureType)
+        }
+    }
+
+    func gesture(geometry: GeometryProxy) -> some Gesture {
+        DragGesture(minimumDistance: 8.0)
+            .updating($stateTransaction) { value, gestureState, _ in
+                gestureState.state = state
+                gestureState.dragValue = value
+                gestureState.height = geometry.size.height
+            }
+            .onChanged {
+                state.verticalDragChanged($0,
+                                          viewCount: pageCount,
+                                          pageHeight: geometry.size.height,
+                                          settings: settings,
+                                          selectedPage: selectedPage)
+            }
+            .onEnded {
+                state.verticalDragEnded($0,
+                                        viewCount: pageCount,
+                                        pageHeight: geometry.size.height,
+                                        settings: settings,
+                                        selectedPage: $selectedPage)
+            }
+    }
+}
+
+extension View {
+    func gesture<T>(_ gesture: T, including mask: GestureMask = .all, type: PageViewSettings.GestureType) -> some View where T : Gesture {
+        Group {
+            if type == .standard {
+                self
+                    .gesture(gesture, including: mask)
+            } else if type == .simultaneous {
+                self
+                    .simultaneousGesture(gesture, including: mask)
+            } else if type == .highPriority {
+                self
+                    .highPriorityGesture(gesture, including: mask)
+            } else {
+                self
+            }
         }
     }
 }
@@ -138,6 +233,10 @@ extension CGFloat {
         #else
         return 0.5
         #endif
+    }
+
+    public static var defaultDragEdgeThreshold: CGFloat {
+        0.5
     }
 }
 
