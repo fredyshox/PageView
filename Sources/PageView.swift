@@ -13,11 +13,13 @@ public struct HPageView<Pages>: View where Pages: View {
     public let pages: PageContainer<Pages>
     public let pageCount: Int
     public let pageControlAlignment: Alignment
+    public let pageGestureType: PageGestureType
     @GestureState var stateTransaction: PageScrollState.TransactionInfo
     
     public init(
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
@@ -27,6 +29,7 @@ public struct HPageView<Pages>: View where Pages: View {
             pageCount: pages.count,
             pageContainer: pages,
             pageSwitchThreshold: pageSwitchThreshold,
+            pageGestureType: pageGestureType,
             theme: theme
         )
     }
@@ -35,6 +38,7 @@ public struct HPageView<Pages>: View where Pages: View {
         selectedPage: Binding<Int>,
         data: Data,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         builder: @escaping (Data.Element) -> ForEachContent
     ) where Data.Element: Identifiable, Pages == ForEach<Data, Data.Element.ID, ForEachContent> {
@@ -44,6 +48,7 @@ public struct HPageView<Pages>: View where Pages: View {
             pageCount: data.count,
             pageContainer: forEachContainer,
             pageSwitchThreshold: pageSwitchThreshold,
+            pageGestureType: pageGestureType,
             theme: theme
         )
     }
@@ -53,6 +58,7 @@ public struct HPageView<Pages>: View where Pages: View {
         data: Data,
         idKeyPath: KeyPath<Data.Element, ID>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         builder: @escaping (Data.Element) -> ForEachContent
     ) where Pages == ForEach<Data, ID, ForEachContent> {
@@ -62,6 +68,7 @@ public struct HPageView<Pages>: View where Pages: View {
             pageCount: data.count,
             pageContainer: forEachContainer,
             pageSwitchThreshold: pageSwitchThreshold,
+            pageGestureType: pageGestureType,
             theme: theme
         )
     }
@@ -70,6 +77,7 @@ public struct HPageView<Pages>: View where Pages: View {
         selectedPage: Binding<Int>,
         data: Range<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         builder: @escaping (Int) -> ForEachContent
     ) where Pages == ForEach<Range<Int>, Int, ForEachContent> {
@@ -79,6 +87,7 @@ public struct HPageView<Pages>: View where Pages: View {
             pageCount: data.count,
             pageContainer: forEachContainer,
             pageSwitchThreshold: pageSwitchThreshold,
+            pageGestureType: pageGestureType,
             theme: theme
         )
     }
@@ -88,6 +97,7 @@ public struct HPageView<Pages>: View where Pages: View {
         pageCount: Int,
         pageContainer: PageContainer<Pages>,
         pageSwitchThreshold: CGFloat,
+        pageGestureType: PageGestureType,
         theme: PageControlTheme
     ) {
         // prevent values outside of 0...1
@@ -98,6 +108,7 @@ public struct HPageView<Pages>: View where Pages: View {
         self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
+        self.pageGestureType = pageGestureType
         self._stateTransaction = state.horizontalGestureState(pageCount: pages.count)
     }
     
@@ -117,22 +128,28 @@ public struct HPageView<Pages>: View where Pages: View {
                         compositeView: HorizontalPageStack(pages: self.pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                .highPriorityGesture(DragGesture(minimumDistance: 8.0)
-                    .updating(self.$stateTransaction, body: { value, state, _ in
-                        state.dragValue = value
-                        state.geometryProxy = geometry
-                    })
-                    .onChanged({
-                        let width = geometry.size.width
-                        let pageCount = self.pageCount
-                        self.state.horizontalDragChanged($0, viewCount: pageCount, pageWidth: width)
-                    })
-                    /*
-                     There is a bug, where onEnded is not called, when gesture is cancelled.
-                     So onEnded is handled using reset handler in `GestureState` (look `PageScrollState`)
-                    */
+                .gesture(
+                    dragGesture(geometry: geometry),
+                    type: pageGestureType
                 )
         }
+    }
+    
+    private func dragGesture(geometry: GeometryProxy) -> some Gesture {
+        /*
+         There is a bug, where onEnded is not called, when gesture is cancelled.
+         So onEnded is handled using reset handler in `GestureState` (look `PageScrollState`)
+        */
+        DragGesture(minimumDistance: 8.0)
+            .updating(self.$stateTransaction, body: { value, state, _ in
+                state.dragValue = value
+                state.geometryProxy = geometry
+            })
+            .onChanged({
+                let width = geometry.size.width
+                let pageCount = self.pageCount
+                self.state.horizontalDragChanged($0, viewCount: pageCount, pageWidth: width)
+            })
     }
 }
 
@@ -142,11 +159,13 @@ public struct VPageView<Pages>: View where Pages: View {
     public let pages: PageContainer<Pages>
     public let pageCount: Int
     public let pageControlAlignment: Alignment
+    public let pageGestureType: PageGestureType
     @GestureState var stateTransaction: PageScrollState.TransactionInfo
     
     public init(
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
@@ -156,6 +175,7 @@ public struct VPageView<Pages>: View where Pages: View {
             pageCount: pages.count,
             pageContainer: pages,
             pageSwitchThreshold: pageSwitchThreshold,
+            pageGestureType: pageGestureType,
             theme: theme
         )
     }
@@ -164,6 +184,7 @@ public struct VPageView<Pages>: View where Pages: View {
         selectedPage: Binding<Int>,
         data: Data,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         builder: @escaping (Data.Element) -> ForEachContent
     ) where Data.Element: Identifiable, Pages == ForEach<Data, Data.Element.ID, ForEachContent> {
@@ -173,6 +194,7 @@ public struct VPageView<Pages>: View where Pages: View {
             pageCount: data.count,
             pageContainer: forEachContainer,
             pageSwitchThreshold: pageSwitchThreshold,
+            pageGestureType: pageGestureType,
             theme: theme
         )
     }
@@ -182,6 +204,7 @@ public struct VPageView<Pages>: View where Pages: View {
         data: Data,
         idKeyPath: KeyPath<Data.Element, ID>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         builder: @escaping (Data.Element) -> ForEachContent
     ) where Pages == ForEach<Data, ID, ForEachContent> {
@@ -191,6 +214,7 @@ public struct VPageView<Pages>: View where Pages: View {
             pageCount: data.count,
             pageContainer: forEachContainer,
             pageSwitchThreshold: pageSwitchThreshold,
+            pageGestureType: pageGestureType,
             theme: theme
         )
     }
@@ -199,6 +223,7 @@ public struct VPageView<Pages>: View where Pages: View {
         selectedPage: Binding<Int>,
         data: Range<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         builder: @escaping (Int) -> ForEachContent
     ) where Pages == ForEach<Range<Int>, Int, ForEachContent> {
@@ -208,6 +233,7 @@ public struct VPageView<Pages>: View where Pages: View {
             pageCount: data.count,
             pageContainer: forEachContainer,
             pageSwitchThreshold: pageSwitchThreshold,
+            pageGestureType: pageGestureType,
             theme: theme
         )
     }
@@ -217,6 +243,7 @@ public struct VPageView<Pages>: View where Pages: View {
         pageCount: Int,
         pageContainer: PageContainer<Pages>,
         pageSwitchThreshold: CGFloat,
+        pageGestureType: PageGestureType,
         theme: PageControlTheme
     ) {
         // prevent values outside of 0...1
@@ -227,6 +254,7 @@ public struct VPageView<Pages>: View where Pages: View {
         self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
+        self.pageGestureType = pageGestureType
         self._stateTransaction = state.verticalGestureState(pageCount: pages.count)
     }
     
@@ -246,22 +274,28 @@ public struct VPageView<Pages>: View where Pages: View {
                         compositeView: VerticalPageStack(pages: self.pages, geometry: geometry),
                         pageControlBuilder: pageControlBuilder)
                 .contentShape(Rectangle())
-                .highPriorityGesture(DragGesture(minimumDistance: 8.0)
-                    .updating(self.$stateTransaction, body: { value, state, _ in
-                        state.dragValue = value
-                        state.geometryProxy = geometry
-                    })
-                    .onChanged({
-                        let height = geometry.size.height
-                        let pageCount = self.pageCount
-                        self.state.verticalDragChanged($0, viewCount: pageCount, pageHeight: height)
-                    })
-                    /*
-                     There is a bug, where onEnded is not called, when gesture is cancelled.
-                     So onEnded is handled using reset handler in `GestureState`. (look `PageScrollState`)
-                    */
+                .gesture(
+                    dragGesture(geometry: geometry),
+                    type: pageGestureType
                 )
         }
+    }
+    
+    private func dragGesture(geometry: GeometryProxy) -> some Gesture {
+        /*
+         There is a bug, where onEnded is not called, when gesture is cancelled.
+         So onEnded is handled using reset handler in `GestureState` (look `PageScrollState`)
+        */
+        DragGesture(minimumDistance: 8.0)
+            .updating(self.$stateTransaction, body: { value, state, _ in
+                state.dragValue = value
+                state.geometryProxy = geometry
+            })
+            .onChanged({
+                let height = geometry.size.height
+                let pageCount = self.pageCount
+                self.state.verticalDragChanged($0, viewCount: pageCount, pageHeight: height)
+            })
     }
 }
 

@@ -39,6 +39,12 @@ struct ContentView: View {
     }
 }
 
+extension Int: Identifiable {
+    public var id: Int {
+        return self
+    }
+}
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

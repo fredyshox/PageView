@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class PageScrollState: ObservableObject {
+final class PageScrollState: ObservableObject {
     
     // MARK: Types
     
