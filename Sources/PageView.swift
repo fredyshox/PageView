@@ -21,13 +21,81 @@ public struct HPageView<Pages>: View where Pages: View {
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
+        let pages = builder()
+        self.init(
+            selectedPage: selectedPage,
+            pageCount: pages.count,
+            pageContainer: pages,
+            pageSwitchThreshold: pageSwitchThreshold,
+            theme: theme
+        )
+    }
+    
+    public init<Data: RandomAccessCollection, ForEachContent: View>(
+        selectedPage: Binding<Int>,
+        data: Data,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        builder: @escaping (Data.Element) -> ForEachContent
+    ) where Data.Element: Identifiable, Pages == ForEach<Data, Data.Element.ID, ForEachContent> {
+        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, content: builder))
+        self.init(
+            selectedPage: selectedPage,
+            pageCount: data.count,
+            pageContainer: forEachContainer,
+            pageSwitchThreshold: pageSwitchThreshold,
+            theme: theme
+        )
+    }
+    
+    public init<Data: RandomAccessCollection, ID: Identifiable, ForEachContent: View>(
+        selectedPage: Binding<Int>,
+        data: Data,
+        idKeyPath: KeyPath<Data.Element, ID>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        builder: @escaping (Data.Element) -> ForEachContent
+    ) where Pages == ForEach<Data, ID, ForEachContent> {
+        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, id: idKeyPath, content: builder))
+        self.init(
+            selectedPage: selectedPage,
+            pageCount: data.count,
+            pageContainer: forEachContainer,
+            pageSwitchThreshold: pageSwitchThreshold,
+            theme: theme
+        )
+    }
+    
+    public init<ForEachContent: View>(
+        selectedPage: Binding<Int>,
+        data: Range<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        builder: @escaping (Int) -> ForEachContent
+    ) where Pages == ForEach<Range<Int>, Int, ForEachContent> {
+        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, content: builder))
+        self.init(
+            selectedPage: selectedPage,
+            pageCount: data.count,
+            pageContainer: forEachContainer,
+            pageSwitchThreshold: pageSwitchThreshold,
+            theme: theme
+        )
+    }
+    
+    private init(
+        selectedPage: Binding<Int>,
+        pageCount: Int,
+        pageContainer: PageContainer<Pages>,
+        pageSwitchThreshold: CGFloat,
+        theme: PageControlTheme
+    ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
         self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
         self.theme = theme
-        let pages = builder()
-        self.pages = pages
-        self.pageCount = pages.count
+        self.pages = pageContainer
+        self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
         self._stateTransaction = state.horizontalGestureState(pageCount: pages.count)
@@ -82,13 +150,81 @@ public struct VPageView<Pages>: View where Pages: View {
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     ) {
+        let pages = builder()
+        self.init(
+            selectedPage: selectedPage,
+            pageCount: pages.count,
+            pageContainer: pages,
+            pageSwitchThreshold: pageSwitchThreshold,
+            theme: theme
+        )
+    }
+    
+    public init<Data: RandomAccessCollection, ForEachContent: View>(
+        selectedPage: Binding<Int>,
+        data: Data,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        builder: @escaping (Data.Element) -> ForEachContent
+    ) where Data.Element: Identifiable, Pages == ForEach<Data, Data.Element.ID, ForEachContent> {
+        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, content: builder))
+        self.init(
+            selectedPage: selectedPage,
+            pageCount: data.count,
+            pageContainer: forEachContainer,
+            pageSwitchThreshold: pageSwitchThreshold,
+            theme: theme
+        )
+    }
+    
+    public init<Data: RandomAccessCollection, ID: Identifiable, ForEachContent: View>(
+        selectedPage: Binding<Int>,
+        data: Data,
+        idKeyPath: KeyPath<Data.Element, ID>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        builder: @escaping (Data.Element) -> ForEachContent
+    ) where Pages == ForEach<Data, ID, ForEachContent> {
+        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, id: idKeyPath, content: builder))
+        self.init(
+            selectedPage: selectedPage,
+            pageCount: data.count,
+            pageContainer: forEachContainer,
+            pageSwitchThreshold: pageSwitchThreshold,
+            theme: theme
+        )
+    }
+    
+    public init<ForEachContent: View>(
+        selectedPage: Binding<Int>,
+        data: Range<Int>,
+        pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        theme: PageControlTheme = .default,
+        builder: @escaping (Int) -> ForEachContent
+    ) where Pages == ForEach<Range<Int>, Int, ForEachContent> {
+        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, content: builder))
+        self.init(
+            selectedPage: selectedPage,
+            pageCount: data.count,
+            pageContainer: forEachContainer,
+            pageSwitchThreshold: pageSwitchThreshold,
+            theme: theme
+        )
+    }
+    
+    private init(
+        selectedPage: Binding<Int>,
+        pageCount: Int,
+        pageContainer: PageContainer<Pages>,
+        pageSwitchThreshold: CGFloat,
+        theme: PageControlTheme
+    ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
         self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
         self.theme = theme
-        let pages = builder()
-        self.pages = pages
-        self.pageCount = pages.count
+        self.pages = pageContainer
+        self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
         self._stateTransaction = state.verticalGestureState(pageCount: pages.count)

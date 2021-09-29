@@ -22,6 +22,13 @@ struct ContentView: View {
             CustomListView(pageIndex: 4)
             CustomView(pageIndex: 5)
         }.edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
+        
+        // ForEach Horizontal
+//        HPageView(selectedPage: $selectedPage, data: 0..<6) { i in
+//            CustomButtonView(pageIndex: i)
+//        }
+//            .edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
+        
         // Vertical
 //        VPageView(selectedPage: $selectedPage) {
 //            CustomButtonView(pageIndex: 0)
@@ -31,6 +38,12 @@ struct ContentView: View {
 //            CustomView(pageIndex: 4)
 //            CustomView(pageIndex: 5)
 //        }.edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
+        
+        // ForEach Vertical
+//        VPageView(selectedPage: $selectedPage, data: 0..<6) { i in
+//            CustomButtonView(pageIndex: i)
+//        }
+//            .edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing, .bottom))
     }
 }
 
