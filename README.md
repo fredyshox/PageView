@@ -12,7 +12,7 @@ This package attempts to provide native SwiftUI component for navigation between
 
 ## Installation
 
-Package requires iOS 13, watchOS 6 and Xcode 11.
+Package requires iOS 14, watchOS 7 and Xcode 12.
 
 ### Swift Package Manager
 
