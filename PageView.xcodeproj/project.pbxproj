@@ -9,11 +9,11 @@
 /* Begin PBXAggregateTarget section */
 		"PageView::PageViewPackageTests::ProductTarget" /* PageViewPackageTests */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_34 /* Build configuration list for PBXAggregateTarget "PageViewPackageTests" */;
+			buildConfigurationList = OBJ_46 /* Build configuration list for PBXAggregateTarget "PageViewPackageTests" */;
 			buildPhases = (
 			);
 			dependencies = (
-				OBJ_37 /* PBXTargetDependency */,
+				OBJ_49 /* PBXTargetDependency */,
 			);
 			name = PageViewPackageTests;
 			productName = PageViewPackageTests;
@@ -21,27 +21,28 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		E211E06D23F30AD5000EB7DA /* PageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06C23F30AD5000EB7DA /* PageContent.swift */; };
-		E211E06F23F30AFD000EB7DA /* PageScrollState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211E06E23F30AFD000EB7DA /* PageScrollState.swift */; };
-		E2B0F9CC242561620065DFBE /* PageViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0F9CB242561620065DFBE /* PageViewBuilder.swift */; };
-		OBJ_23 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* PageControl.swift */; };
-		OBJ_24 /* PageControlTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* PageControlTheme.swift */; };
-		OBJ_25 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* PageView.swift */; };
-		OBJ_32 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_43 /* PageViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* PageViewTests.swift */; };
-		OBJ_44 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* XCTestManifests.swift */; };
-		OBJ_46 /* PageView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PageView::PageView::Product" /* PageView.framework */; };
+		OBJ_31 /* PageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* PageContent.swift */; };
+		OBJ_32 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* PageControl.swift */; };
+		OBJ_33 /* PageControlTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* PageControlTheme.swift */; };
+		OBJ_34 /* PageGestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* PageGestureType.swift */; };
+		OBJ_35 /* PageScrollState.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* PageScrollState.swift */; };
+		OBJ_36 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* PageView.swift */; };
+		OBJ_37 /* PageViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* PageViewBuilder.swift */; };
+		OBJ_44 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_55 /* PageViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* PageViewTests.swift */; };
+		OBJ_56 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* XCTestManifests.swift */; };
+		OBJ_58 /* PageView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PageView::PageView::Product" /* PageView.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E711488223EF79FA009ABC2D /* PBXContainerItemProxy */ = {
+		E2D838522705CDE3008D0EC0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "PageView::PageView";
 			remoteInfo = PageView;
 		};
-		E711488323EF79FA009ABC2D /* PBXContainerItemProxy */ = {
+		E2D838552705CDE3008D0EC0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -51,57 +52,62 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E211E06C23F30AD5000EB7DA /* PageContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageContent.swift; sourceTree = "<group>"; };
-		E211E06E23F30AFD000EB7DA /* PageScrollState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageScrollState.swift; sourceTree = "<group>"; };
-		E2B0F9CB242561620065DFBE /* PageViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewBuilder.swift; sourceTree = "<group>"; };
-		OBJ_10 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
-		OBJ_13 /* PageViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewTests.swift; sourceTree = "<group>"; };
-		OBJ_14 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
+		OBJ_10 /* PageControlTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControlTheme.swift; sourceTree = "<group>"; };
+		OBJ_11 /* PageGestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageGestureType.swift; sourceTree = "<group>"; };
+		OBJ_12 /* PageScrollState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageScrollState.swift; sourceTree = "<group>"; };
+		OBJ_13 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		OBJ_14 /* PageViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewBuilder.swift; sourceTree = "<group>"; };
+		OBJ_17 /* PageViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewTests.swift; sourceTree = "<group>"; };
+		OBJ_18 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
+		OBJ_22 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = SOURCE_ROOT; };
+		OBJ_23 /* Examples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Examples; sourceTree = SOURCE_ROOT; };
+		OBJ_24 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		OBJ_25 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_8 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
-		OBJ_9 /* PageControlTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControlTheme.swift; sourceTree = "<group>"; };
+		OBJ_8 /* PageContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageContent.swift; sourceTree = "<group>"; };
+		OBJ_9 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		"PageView::PageView::Product" /* PageView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PageView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"PageView::PageViewTests::Product" /* PageViewTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = PageViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_26 /* Frameworks */ = {
+		OBJ_38 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_45 /* Frameworks */ = {
+		OBJ_57 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_46 /* PageView.framework in Frameworks */,
+				OBJ_58 /* PageView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		OBJ_11 /* Tests */ = {
+		OBJ_15 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_12 /* PageViewTests */,
+				OBJ_16 /* PageViewTests */,
 			);
 			name = Tests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_12 /* PageViewTests */ = {
+		OBJ_16 /* PageViewTests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_13 /* PageViewTests.swift */,
-				OBJ_14 /* XCTestManifests.swift */,
+				OBJ_17 /* PageViewTests.swift */,
+				OBJ_18 /* XCTestManifests.swift */,
 			);
 			name = PageViewTests;
 			path = Tests/PageViewTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_15 /* Products */ = {
+		OBJ_19 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				"PageView::PageViewTests::Product" /* PageViewTests.xctest */,
@@ -110,25 +116,31 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 = {
+		OBJ_5 /*  */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
-				OBJ_11 /* Tests */,
-				OBJ_15 /* Products */,
+				OBJ_15 /* Tests */,
+				OBJ_19 /* Products */,
+				OBJ_22 /* Images */,
+				OBJ_23 /* Examples */,
+				OBJ_24 /* LICENSE */,
+				OBJ_25 /* README.md */,
 			);
+			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* PageControl.swift */,
-				OBJ_9 /* PageControlTheme.swift */,
-				OBJ_10 /* PageView.swift */,
-				E211E06C23F30AD5000EB7DA /* PageContent.swift */,
-				E211E06E23F30AFD000EB7DA /* PageScrollState.swift */,
-				E2B0F9CB242561620065DFBE /* PageViewBuilder.swift */,
+				OBJ_8 /* PageContent.swift */,
+				OBJ_9 /* PageControl.swift */,
+				OBJ_10 /* PageControlTheme.swift */,
+				OBJ_11 /* PageGestureType.swift */,
+				OBJ_12 /* PageScrollState.swift */,
+				OBJ_13 /* PageView.swift */,
+				OBJ_14 /* PageViewBuilder.swift */,
 			);
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -138,10 +150,10 @@
 /* Begin PBXNativeTarget section */
 		"PageView::PageView" /* PageView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_19 /* Build configuration list for PBXNativeTarget "PageView" */;
+			buildConfigurationList = OBJ_27 /* Build configuration list for PBXNativeTarget "PageView" */;
 			buildPhases = (
-				OBJ_22 /* Sources */,
-				OBJ_26 /* Frameworks */,
+				OBJ_30 /* Sources */,
+				OBJ_38 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -154,15 +166,15 @@
 		};
 		"PageView::PageViewTests" /* PageViewTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_39 /* Build configuration list for PBXNativeTarget "PageViewTests" */;
+			buildConfigurationList = OBJ_51 /* Build configuration list for PBXNativeTarget "PageViewTests" */;
 			buildPhases = (
-				OBJ_42 /* Sources */,
-				OBJ_45 /* Frameworks */,
+				OBJ_54 /* Sources */,
+				OBJ_57 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_47 /* PBXTargetDependency */,
+				OBJ_59 /* PBXTargetDependency */,
 			);
 			name = PageViewTests;
 			productName = PageViewTests;
@@ -171,9 +183,9 @@
 		};
 		"PageView::SwiftPMPackageDescription" /* PageViewPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_28 /* Build configuration list for PBXNativeTarget "PageViewPackageDescription" */;
+			buildConfigurationList = OBJ_40 /* Build configuration list for PBXNativeTarget "PageViewPackageDescription" */;
 			buildPhases = (
-				OBJ_31 /* Sources */,
+				OBJ_43 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -199,8 +211,8 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5;
-			productRefGroup = OBJ_15 /* Products */;
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_19 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -213,53 +225,54 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_22 /* Sources */ = {
+		OBJ_30 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				E211E06D23F30AD5000EB7DA /* PageContent.swift in Sources */,
-				OBJ_23 /* PageControl.swift in Sources */,
-				E211E06F23F30AFD000EB7DA /* PageScrollState.swift in Sources */,
-				E2B0F9CC242561620065DFBE /* PageViewBuilder.swift in Sources */,
-				OBJ_24 /* PageControlTheme.swift in Sources */,
-				OBJ_25 /* PageView.swift in Sources */,
+				OBJ_31 /* PageContent.swift in Sources */,
+				OBJ_32 /* PageControl.swift in Sources */,
+				OBJ_33 /* PageControlTheme.swift in Sources */,
+				OBJ_34 /* PageGestureType.swift in Sources */,
+				OBJ_35 /* PageScrollState.swift in Sources */,
+				OBJ_36 /* PageView.swift in Sources */,
+				OBJ_37 /* PageViewBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_31 /* Sources */ = {
+		OBJ_43 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_32 /* Package.swift in Sources */,
+				OBJ_44 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_42 /* Sources */ = {
+		OBJ_54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_43 /* PageViewTests.swift in Sources */,
-				OBJ_44 /* XCTestManifests.swift in Sources */,
+				OBJ_55 /* PageViewTests.swift in Sources */,
+				OBJ_56 /* XCTestManifests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_37 /* PBXTargetDependency */ = {
+		OBJ_49 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PageView::PageViewTests" /* PageViewTests */;
-			targetProxy = E711488323EF79FA009ABC2D /* PBXContainerItemProxy */;
+			targetProxy = E2D838552705CDE3008D0EC0 /* PBXContainerItemProxy */;
 		};
-		OBJ_47 /* PBXTargetDependency */ = {
+		OBJ_59 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "PageView::PageView" /* PageView */;
-			targetProxy = E711488223EF79FA009ABC2D /* PBXContainerItemProxy */;
+			targetProxy = E2D838522705CDE3008D0EC0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		OBJ_20 /* Debug */ = {
+		OBJ_28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
@@ -270,10 +283,10 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PageView.xcodeproj/PageView_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.4.1;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 1.5.0;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
@@ -285,11 +298,11 @@
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = PageView;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 6.0;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Debug;
 		};
-		OBJ_21 /* Release */ = {
+		OBJ_29 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
@@ -300,10 +313,10 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PageView.xcodeproj/PageView_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.4.1;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 1.5.0;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
@@ -315,18 +328,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = PageView;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 6.0;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Release;
-		};
-		OBJ_29 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.1";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
 		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -355,27 +359,6 @@
 			};
 			name = Debug;
 		};
-		OBJ_30 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.1";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		OBJ_35 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		OBJ_36 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		OBJ_4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -400,32 +383,37 @@
 			};
 			name = Release;
 		};
-		OBJ_40 /* Debug */ = {
+		OBJ_41 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = PageView.xcodeproj/PageViewTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -package-description-version 5.3.0";
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = PageViewTests;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
-		OBJ_41 /* Release */ = {
+		OBJ_42 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -package-description-version 5.3.0";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		OBJ_47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		OBJ_52 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -436,9 +424,9 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PageView.xcodeproj/PageViewTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
@@ -446,22 +434,38 @@
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = PageViewTests;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 6.0;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		OBJ_53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = PageView.xcodeproj/PageViewTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = PageViewTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_19 /* Build configuration list for PBXNativeTarget "PageView" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_20 /* Debug */,
-				OBJ_21 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		OBJ_2 /* Build configuration list for PBXProject "PageView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -471,29 +475,38 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_28 /* Build configuration list for PBXNativeTarget "PageViewPackageDescription" */ = {
+		OBJ_27 /* Build configuration list for PBXNativeTarget "PageView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_29 /* Debug */,
-				OBJ_30 /* Release */,
+				OBJ_28 /* Debug */,
+				OBJ_29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_34 /* Build configuration list for PBXAggregateTarget "PageViewPackageTests" */ = {
+		OBJ_40 /* Build configuration list for PBXNativeTarget "PageViewPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_35 /* Debug */,
-				OBJ_36 /* Release */,
+				OBJ_41 /* Debug */,
+				OBJ_42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_39 /* Build configuration list for PBXNativeTarget "PageViewTests" */ = {
+		OBJ_46 /* Build configuration list for PBXAggregateTarget "PageViewPackageTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_40 /* Debug */,
-				OBJ_41 /* Release */,
+				OBJ_47 /* Debug */,
+				OBJ_48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_51 /* Build configuration list for PBXNativeTarget "PageViewTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_52 /* Debug */,
+				OBJ_53 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

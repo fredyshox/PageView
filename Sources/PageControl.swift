@@ -38,6 +38,7 @@ public enum PageControl {
             }
                 .modifier(Background(theme: theme))
                 .offset(x: 0.0, y: theme.yOffset)
+                .opacity(theme.opacity)
         }
     }
 
@@ -55,6 +56,7 @@ public enum PageControl {
             }
                 .modifier(Background(theme: theme))
                 .offset(x: theme.xOffset, y: 0.0)
+                .opacity(theme.opacity)
         }
     }
     

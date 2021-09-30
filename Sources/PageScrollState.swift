@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class PageScrollState: ObservableObject {
+final class PageScrollState: ObservableObject {
     
     // MARK: Types
     
@@ -66,7 +66,7 @@ class PageScrollState: ObservableObject {
             newPage += 1
         }
         
-        withAnimation(.easeInOut(duration: 0.2)) {
+        withAnimation(.easeOut(duration: 0.2)) {
             self.pageOffset = 0.0
             self.selectedPage = newPage
         }

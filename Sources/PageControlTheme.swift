@@ -16,6 +16,7 @@ public struct PageControlTheme {
     public var padding: CGFloat
     public var xOffset: CGFloat
     public var yOffset: CGFloat
+    public var opacity: Double
     public var alignment: Alignment?
     
     public init(
@@ -27,6 +28,7 @@ public struct PageControlTheme {
         padding: CGFloat,
         xOffset: CGFloat,
         yOffset: CGFloat,
+        opacity: Double = 1.0,
         alignment: Alignment? = nil
     ) {
         self.backgroundColor = backgroundColor
@@ -37,7 +39,23 @@ public struct PageControlTheme {
         self.padding = padding
         self.xOffset = xOffset
         self.yOffset = yOffset
+        self.opacity = opacity
         self.alignment = alignment
+    }
+    
+    public static var invisible: PageControlTheme {
+        return PageControlTheme(
+            backgroundColor: .clear,
+            dotActiveColor: .clear,
+            dotInactiveColor: .clear,
+            dotSize: .zero,
+            spacing: .zero,
+            padding: .zero,
+            xOffset: .zero,
+            yOffset: .zero,
+            opacity: .zero,
+            alignment: nil
+        )
     }
     
     public static var `default`: PageControlTheme {
@@ -51,6 +69,7 @@ public struct PageControlTheme {
                 padding: 4.0,
                 xOffset: 12.0,
                 yOffset: -12.0,
+                opacity: 1.0,
                 alignment: nil
             )
         #elseif os(watchOS)
@@ -63,6 +82,7 @@ public struct PageControlTheme {
                 padding: 2.0,
                 xOffset: 0.0,
                 yOffset: 0.0,
+                opacity: 1.0,
                 alignment: nil
             )
         #else
@@ -75,6 +95,7 @@ public struct PageControlTheme {
                 padding: 8.0,
                 xOffset: 16.0,
                 yOffset: -16.0,
+                opacity: 1.0,
                 alignment: nil
             )
         #endif
