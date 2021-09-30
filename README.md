@@ -18,7 +18,7 @@ Package requires iOS 13, watchOS 6 and Xcode 11.
 
 For Swift Package Manager add the following package to your Package.swift:
 ```swift
-.package(url: "https://github.com/fredyshox/PageView.git", .upToNextMajor(from: "1.4.1")),
+.package(url: "https://github.com/fredyshox/PageView.git", .upToNextMajor(from: "1.5.0")),
 ```
 
 ### Carthage
@@ -26,7 +26,7 @@ For Swift Package Manager add the following package to your Package.swift:
 
 Carthage is also supported, add FormView by adding to Cartfile:
 ```
-github "fredyshox/PageView" ~> 1.4.1
+github "fredyshox/PageView" ~> 1.5.0
 ```
 
 ## Demo
@@ -74,11 +74,46 @@ withAnimation {
 }
 ```
 
+### ForEach-style init
+
+PageView supports `ForEach`-like initialization, that is:
+
+```swift
+// integer ranges
+HPageView(selectedPage: $pageIndex, data: 0..<5) { index in
+    SomeCustomView(withIndex: index)
+}
+
+// or collection of `Identifiable`
+let identifiableArray: [SomeIdentifiableItem] = ...
+HPageView(selectedPage: $pageIndex, data: identifiableArray) { item in
+    SomeCustomView(withItem: item) 
+}
+
+// or any other collection, by specifing id by key-path
+let nonIdentifiableArray: [SomeNonIdentifiableItem] = ...
+HPageView(selectedPage: $pageIndex, data: nonIdentifiableArray, idKeyPath: \.path.to.id) { item in
+    SomeCustomView(withItem: item) 
+}
+```
+
 ### Page switch threshold
 
 You can also control minimum distance that needs to be scrolled to switch page, expressed in fraction of page dimension (width or height, depending on axis). This parameter is called `pageSwitchThreshold`, and must be in range from 0.0 to 1.0.
 
 For iOS the default value is set to `0.3`, while on watchOS `0.5`.
+
+### Gesture type
+
+If PageView gestures are intefering with gestures present on individual pages, PageView's gesture type can be changed by passing `PageGestureType`. Possible values: `.standard`, `.simultaneous`, `.highPriority` (default)
+
+```swift
+VPageView(selectedPage: $pageIndex, pageGestureType: .simultaneous) {
+    // views 
+}
+```
+
+
 
 ### Theme
 
@@ -92,6 +127,7 @@ Styling of page control component can be customized by passing `PageControlTheme
 * `padding`: padding of page control
 * `xOffset`: page control x-axis offset, used only in vertical mode
 * `yOffset`: page control y-axis offset, used only in horizontal mode
+* `opacity`: page control opacity in range from 0.0 (invisible) to 1.0 (opaque)
 * `alignment`: alignment of page control component (default: bottom-center in horizontal mode, center-leading in vertical mode)
 
 ```swift
@@ -104,6 +140,7 @@ let theme = PageControlTheme(
     padding: 5.0,
   	xOffset: 8.0,
     yOffset: -8.0,
+    opacity: 0.5,
     alignment: Alignment(horizontal: .trailing, vertical: .top)
 )
 ...
@@ -112,7 +149,7 @@ VPageView(theme: theme) {
 }
 ```
 
-There is also a built-in `PageControlTheme.default` style, mimicking `UIPageControl` appearance.
+There is also a built-in `PageControlTheme.default` style, mimicking `UIPageControl` appearance. To hide it completely use `PageControlTheme.invisible`.
 
 ## API
 
@@ -122,6 +159,7 @@ public struct HPageView<Pages>: View where Pages: View {
     public init(
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     )
@@ -132,9 +170,14 @@ public struct VPageView<Pages>: View where Pages: View {
     public init(
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
+        pageGestureType: PageGestureType = .highPriority,
         theme: PageControlTheme = .default,
         @PageViewBuilder builder: () -> PageContainer<Pages>
     )
+}
+
+public enum PageGestureType {
+    case standard, simultaneous, highPriority
 }
 
 public struct PageControlTheme {
@@ -146,6 +189,7 @@ public struct PageControlTheme {
     public var padding: CGFloat
     public var xOffset: CGFloat
     public var yOffset: CGFloat
+    public var opacity: Double
     public var alignment: Alignment?
 }
 ```
