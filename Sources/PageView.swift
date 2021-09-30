@@ -8,12 +8,13 @@
 import SwiftUI
 
 public struct HPageView<Pages>: View where Pages: View {
-    let state: PageScrollState
     public let theme: PageControlTheme
     public let pages: PageContainer<Pages>
     public let pageCount: Int
     public let pageControlAlignment: Alignment
     public let pageGestureType: PageGestureType
+    
+    @StateObject var state: PageScrollState
     @GestureState var stateTransaction: PageScrollState.TransactionInfo
     
     public init(
@@ -102,14 +103,15 @@ public struct HPageView<Pages>: View where Pages: View {
     ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        let wrappedStateObj = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        self._state = StateObject(wrappedValue: wrappedStateObj)
+        self._stateTransaction = wrappedStateObj.horizontalGestureState(pageCount: pageCount)
         self.theme = theme
         self.pages = pageContainer
         self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
         self.pageGestureType = pageGestureType
-        self._stateTransaction = state.horizontalGestureState(pageCount: pages.count)
     }
     
     public var body: some View {
@@ -120,7 +122,9 @@ public struct HPageView<Pages>: View where Pages: View {
         }
         
         return GeometryReader { geometry in
-            PageContent(state: self.state,
+            PageContent(selectedPage: state.$selectedPage,
+                        pageOffset: $state.pageOffset,
+                        isGestureActive: $state.isGestureActive,
                         axis: .horizontal,
                         alignment: self.pageControlAlignment,
                         geometry: geometry,
@@ -154,14 +158,15 @@ public struct HPageView<Pages>: View where Pages: View {
 }
 
 public struct VPageView<Pages>: View where Pages: View {
-    let state: PageScrollState
     public let theme: PageControlTheme
     public let pages: PageContainer<Pages>
     public let pageCount: Int
     public let pageControlAlignment: Alignment
     public let pageGestureType: PageGestureType
-    @GestureState var stateTransaction: PageScrollState.TransactionInfo
     
+    @StateObject var state: PageScrollState
+    @GestureState var stateTransaction: PageScrollState.TransactionInfo
+
     public init(
         selectedPage: Binding<Int>,
         pageSwitchThreshold: CGFloat = .defaultSwitchThreshold,
@@ -179,7 +184,7 @@ public struct VPageView<Pages>: View where Pages: View {
             theme: theme
         )
     }
-    
+
     public init<Data: RandomAccessCollection, ForEachContent: View>(
         selectedPage: Binding<Int>,
         data: Data,
@@ -198,7 +203,7 @@ public struct VPageView<Pages>: View where Pages: View {
             theme: theme
         )
     }
-    
+
     public init<Data: RandomAccessCollection, ID: Identifiable, ForEachContent: View>(
         selectedPage: Binding<Int>,
         data: Data,
@@ -218,7 +223,7 @@ public struct VPageView<Pages>: View where Pages: View {
             theme: theme
         )
     }
-    
+
     public init<ForEachContent: View>(
         selectedPage: Binding<Int>,
         data: Range<Int>,
@@ -237,7 +242,7 @@ public struct VPageView<Pages>: View where Pages: View {
             theme: theme
         )
     }
-    
+
     private init(
         selectedPage: Binding<Int>,
         pageCount: Int,
@@ -248,25 +253,28 @@ public struct VPageView<Pages>: View where Pages: View {
     ) {
         // prevent values outside of 0...1
         let threshold = CGFloat(abs(pageSwitchThreshold) - floor(abs(pageSwitchThreshold)))
-        self.state = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        let wrappedStateObj = PageScrollState(switchThreshold: threshold, selectedPageBinding: selectedPage)
+        self._state = StateObject(wrappedValue: wrappedStateObj)
+        self._stateTransaction = wrappedStateObj.verticalGestureState(pageCount: pageCount)
         self.theme = theme
         self.pages = pageContainer
         self.pageCount = pageCount
         self.pageControlAlignment =
             theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
         self.pageGestureType = pageGestureType
-        self._stateTransaction = state.verticalGestureState(pageCount: pages.count)
     }
-    
+
     public var body: some View {
         let pageControlBuilder = { (childCount, selectedPageBinding) in
             return PageControl.DefaultVertical(pageCount: childCount,
                                                  selectedPage: selectedPageBinding,
                                                  theme: self.theme)
         }
-        
+
         return GeometryReader { geometry in
-            PageContent(state: self.state,
+            PageContent(selectedPage: state.$selectedPage,
+                        pageOffset: $state.pageOffset,
+                        isGestureActive: $state.isGestureActive,
                         axis: .vertical,
                         alignment: self.pageControlAlignment,
                         geometry: geometry,
@@ -280,7 +288,7 @@ public struct VPageView<Pages>: View where Pages: View {
                 )
         }
     }
-    
+
     private func dragGesture(geometry: GeometryProxy) -> some Gesture {
         /*
          There is a bug, where onEnded is not called, when gesture is cancelled.

@@ -67,11 +67,8 @@ final class PageScrollState: ObservableObject {
         }
         
         withAnimation(.easeOut(duration: 0.2)) {
-            if (newPage == selectedPage) {
-                self.pageOffset = 0.0
-            } else {
-                self.selectedPage = newPage
-            }
+            self.pageOffset = 0.0
+            self.selectedPage = newPage
         }
         
         DispatchQueue.main.async {

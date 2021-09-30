@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "PageView",
     platforms: [
-        .iOS(.v13),
-        .watchOS(.v6)
+        .iOS(.v14),
+        .watchOS(.v7)
     ],
     products: [
         .library(name: "PageView", targets: ["PageView"]),
