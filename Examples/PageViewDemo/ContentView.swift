@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-//import PageView
+import PageView
 
 struct ContentView: View {
     @State var selectedPage = 2
