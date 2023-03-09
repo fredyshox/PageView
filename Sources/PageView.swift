@@ -82,7 +82,7 @@ public struct HPageView<Pages>: View where Pages: View {
         theme: PageControlTheme = .default,
         builder: @escaping (Int) -> ForEachContent
     ) where Pages == ForEach<Range<Int>, Int, ForEachContent> {
-        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, content: builder))
+        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, id: \.self, content: builder))
         self.init(
             selectedPage: selectedPage,
             pageCount: data.count,
@@ -232,7 +232,7 @@ public struct VPageView<Pages>: View where Pages: View {
         theme: PageControlTheme = .default,
         builder: @escaping (Int) -> ForEachContent
     ) where Pages == ForEach<Range<Int>, Int, ForEachContent> {
-        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, content: builder))
+        let forEachContainer = PageContainer(count: data.count, content: ForEach(data, id: \.self, content: builder))
         self.init(
             selectedPage: selectedPage,
             pageCount: data.count,
