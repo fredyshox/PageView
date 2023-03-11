@@ -23,7 +23,7 @@ public struct PageContainer<Content>: View where Content: View {
     Modified version of ViewBuilder, which does the counting of child views.
     Other than that it works the same way as the original
  */
-@_functionBuilder
+@resultBuilder
 public struct PageViewBuilder {
     public static func buildBlock<Content>(_ c: Content) -> PageContainer<Content> {
         return PageContainer(count: 1, content: c)

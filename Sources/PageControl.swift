@@ -68,7 +68,7 @@ public enum PageControl {
         public let theme: PageControlTheme
         
         public var body: some View {
-            ForEach(0..<pageCount) { (i) in
+            ForEach(0..<pageCount, id: \.self) { (i) in
                  Circle()
                      .frame(width: self.theme.dotSize, height: self.theme.dotSize)
                      .foregroundColor(self.dotColor(index: i))
